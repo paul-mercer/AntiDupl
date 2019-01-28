@@ -2,10 +2,8 @@
 // Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
-using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 
 namespace AntiDuplWPF.Helper

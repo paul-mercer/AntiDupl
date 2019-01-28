@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -13,7 +10,7 @@ using AntiDuplWPF.ViewModel;
 
 namespace AntiDuplWPF.Command
 {
-   public class SearchDllCommand : ICommand
+    public class SearchDllCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
         private MainViewModel _mainViewModel;
