@@ -21,9 +21,6 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AntiDupl.NET
 {
@@ -321,7 +318,7 @@ namespace AntiDupl.NET
 
         static private Strings Create()
         {
-            Strings strings = new Strings();
+            var strings = new Strings();
             CopyTo(strings);
             return strings;
         }
@@ -331,6 +328,6 @@ namespace AntiDupl.NET
             return m_strings;
         }
 
-        static private Strings m_strings = Create();
+        private static readonly Strings m_strings = Create();
     }
 }

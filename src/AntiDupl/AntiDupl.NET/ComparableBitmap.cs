@@ -30,16 +30,12 @@ namespace AntiDupl.NET
     public class ComparableBitmap
     {
         public Rectangle Rect { get; set; }
-        private byte[] _grayScaleData = null;
-        public byte[] GrayscaleData
-        {
-            get { return _grayScaleData; }
-        }
+        public byte[] GrayscaleData { get; } = null;
 
         /// <summary>
         /// A colormatric we use to convert the image to grayscale.
         /// </summary>
-        private static ColorMatrix colorMatrix = new ColorMatrix(
+        private static readonly ColorMatrix colorMatrix = new ColorMatrix(
                new float[][]
               {
                  new float[] {.3f, .3f, .3f, 0, 0},
@@ -54,15 +50,15 @@ namespace AntiDupl.NET
             this.Rect = section;
 
             // Create the new bitmap and associated graphics object
-            using (Bitmap sectionBmp = new Bitmap(section.Width, section.Height))
+            using (var sectionBmp = new Bitmap(section.Width, section.Height))
             {
-                using (Graphics g = Graphics.FromImage(sectionBmp))
+                using (var g = Graphics.FromImage(sectionBmp))
                 {
                     // Draw the specified section of the source bitmap to the new one
                     g.DrawImage(bitmapSource, 0, 0, section, GraphicsUnit.Pixel);
                 }
 
-                this._grayScaleData = GetBmpBytes(ToGrayScale(sectionBmp));
+                this.GrayscaleData = GetBmpBytes(ToGrayScale(sectionBmp));
             }
         }
 
@@ -75,14 +71,14 @@ namespace AntiDupl.NET
         byte[] GetBmpBytes(Bitmap bmp)
         {
             BitmapData bData = bmp.LockBits(new Rectangle(new Point(), bmp.Size), ImageLockMode.ReadOnly, bmp.PixelFormat);
-            int byteCount = (bData.Stride * bmp.Height) / 4;
-            int bytesPerPixel = (bData.Stride * bmp.Height) / (bmp.Height * bmp.Width);
-            byte[] bmpBytes = new byte[byteCount];
+            var byteCount = (bData.Stride * bmp.Height) / 4;
+            var bytesPerPixel = (bData.Stride * bmp.Height) / (bmp.Height * bmp.Width);
+            var bmpBytes = new byte[byteCount];
 
             unsafe
             {
-                byte* p = (byte*)(void*)bData.Scan0;
-                for (int x = 0; x < bmpBytes.Length; ++x)
+                var p = (byte*)(void*)bData.Scan0;
+                for (var x = 0; x < bmpBytes.Length; ++x)
                 {
                     bmpBytes[x] = *p;
                     p += bytesPerPixel;
@@ -93,17 +89,17 @@ namespace AntiDupl.NET
             return bmpBytes;
         }
 
-        public Bitmap ToGrayScale(System.Drawing.Bitmap b)
+        public Bitmap ToGrayScale(Bitmap b)
         {
             //create a blank bitmap the same size as original
-            Bitmap newBitmap = new Bitmap(b.Width, b.Height);
+            var newBitmap = new Bitmap(b.Width, b.Height);
 
             //get a graphics object from the new image
-            using (Graphics g = Graphics.FromImage(newBitmap))
+            using (var g = Graphics.FromImage(newBitmap))
             {
 
                 //create some image attributes
-                ImageAttributes attributes = new ImageAttributes();
+                var attributes = new ImageAttributes();
 
                 //set the color matrix attribute
                 attributes.SetColorMatrix(colorMatrix);

@@ -22,7 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
@@ -55,26 +54,32 @@ namespace AntiDupl.NET
             SizingGrip = false;
             Visible = m_options.mainFormOptions.statusStripView;
 
-            m_totalLabel = new ToolStripStatusLabel();
-            m_totalLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            m_totalLabel.Margin = new System.Windows.Forms.Padding(0, 2, 1, 0);
-            m_totalLabel.BorderSides = ToolStripStatusLabelBorderSides.All;
-            m_totalLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            m_totalLabel.AutoSize = false;
+            m_totalLabel = new ToolStripStatusLabel
+            {
+                BorderStyle = Border3DStyle.SunkenOuter,
+                Margin = new Padding(0, 2, 1, 0),
+                BorderSides = ToolStripStatusLabelBorderSides.All,
+                TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
+                AutoSize = false
+            };
 
-            m_currentLabel = new ToolStripStatusLabel();
-            m_currentLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            m_currentLabel.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            m_currentLabel.BorderSides = ToolStripStatusLabelBorderSides.All;
-            m_currentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            m_currentLabel.AutoSize = false;
-            
-            m_selectedLabel = new ToolStripStatusLabel();
-            m_selectedLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            m_selectedLabel.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            m_selectedLabel.BorderSides = ToolStripStatusLabelBorderSides.All;
-            m_selectedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            m_selectedLabel.AutoSize = false;
+            m_currentLabel = new ToolStripStatusLabel
+            {
+                BorderStyle = Border3DStyle.SunkenOuter,
+                Margin = new Padding(0, 2, 0, 0),
+                BorderSides = ToolStripStatusLabelBorderSides.All,
+                TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
+                AutoSize = false
+            };
+
+            m_selectedLabel = new ToolStripStatusLabel
+            {
+                BorderStyle = Border3DStyle.SunkenOuter,
+                Margin = new Padding(0, 2, 0, 0),
+                BorderSides = ToolStripStatusLabelBorderSides.All,
+                TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
+                AutoSize = false
+            };
 
             Items.Add(m_totalLabel);
             Items.Add(m_currentLabel);
@@ -105,7 +110,7 @@ namespace AntiDupl.NET
         private void UpdateResults()
         {
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 builder.Append(m_totalText);
                 builder.Append(m_mainSplitContainer.resultsListView.GetTotalResultCount());
                 m_totalLabel.Text = builder.ToString();
@@ -118,9 +123,9 @@ namespace AntiDupl.NET
 
         private void SelectionChanged()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(m_selectedText);
-            int selectedResultCount = m_mainSplitContainer.resultsListView.GetSelectedResultCount();
+            var selectedResultCount = m_mainSplitContainer.resultsListView.GetSelectedResultCount();
             if (m_mainSplitContainer.resultsListView.GetTotalResultCount() > 0)
                 builder.Append(selectedResultCount);
             else
@@ -142,7 +147,7 @@ namespace AntiDupl.NET
 
         private void CurrentResultChanged()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(m_currentText);
             builder.Append(m_mainSplitContainer.resultsListView.GetTotalResultCount() > 0 ? m_mainSplitContainer.resultsListView.GetCurrentRowIndex() + 1 : 0);
             m_currentLabel.Text = builder.ToString();

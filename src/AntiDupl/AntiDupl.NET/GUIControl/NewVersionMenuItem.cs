@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.Drawing;
@@ -64,8 +62,10 @@ namespace AntiDupl.NET
             Click += new EventHandler(OnClick);
             Resources.Strings.OnCurrentChange += new Resources.Strings.CurrentChangeHandler(UpdateStrings);
 
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Interval = 1000;
+            m_timer = new System.Windows.Forms.Timer
+            {
+                Interval = 1000
+            };
             m_timer.Tick += new EventHandler(TimerCallback);
             m_timer.Start();
         }
@@ -82,11 +82,11 @@ namespace AntiDupl.NET
             Text = s.MainMenu_NewVersionMenuItem_Text;
             if (m_onlineVersion != null)
             {
-                ToolTipText = String.Format(s.MainMenu_NewVersionMenuItem_Tooltip, m_onlineVersion.ToString());
+                ToolTipText = string.Format(s.MainMenu_NewVersionMenuItem_Tooltip, m_onlineVersion.ToString());
             }
         }
 
-        void TimerCallback(Object obj, EventArgs eventArgs)
+        void TimerCallback(object obj, EventArgs eventArgs)
         {
             if (m_downloadingFinished)
             {
@@ -107,7 +107,7 @@ namespace AntiDupl.NET
             m_localVersion = new Version();
             //m_localVersion.Save("version.xml");
 
-            Thread thread = new Thread(OnlineVersionDownloadThreadTask);
+            var thread = new Thread(OnlineVersionDownloadThreadTask);
             thread.Start();
         }
 
@@ -115,8 +115,8 @@ namespace AntiDupl.NET
         {
             try
             {
-                WebClient webClient = new WebClient();
-                byte[] buffer = webClient.DownloadData(Resources.WebLinks.Version);
+                var webClient = new WebClient();
+                var buffer = webClient.DownloadData(Resources.WebLinks.Version);
                 m_onlineVersion = Version.LoadXml(new MemoryStream(buffer));
             }
             catch

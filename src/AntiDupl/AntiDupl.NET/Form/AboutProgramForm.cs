@@ -22,15 +22,13 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AntiDupl.NET
 {
     public class AboutProgramForm : Form
     {
-        private CoreLib m_core;
+        private readonly CoreLib m_core;
 
         private AboutProgramPanel m_aboutProgramPanel;
         private Button m_okButton;
@@ -56,9 +54,11 @@ namespace AntiDupl.NET
             mainTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             Controls.Add(mainTableLayoutPanel);
 
-            m_aboutProgramPanel = new AboutProgramPanel(m_core);
-            m_aboutProgramPanel.Location = new System.Drawing.Point(0, 0);
-            m_aboutProgramPanel.Dock = DockStyle.Fill;
+            m_aboutProgramPanel = new AboutProgramPanel(m_core)
+            {
+                Location = new System.Drawing.Point(0, 0),
+                Dock = DockStyle.Fill
+            };
             mainTableLayoutPanel.Controls.Add(m_aboutProgramPanel, 0, 0);
 
             TableLayoutPanel okButtonTableLayoutPanel = InitFactory.Layout.Create(3, 1);
@@ -68,7 +68,7 @@ namespace AntiDupl.NET
             mainTableLayoutPanel.Controls.Add(okButtonTableLayoutPanel, 0, 1);
 
             m_okButton = new Button();
-            m_okButton.Click += new System.EventHandler(OnOkButtonClick);
+            m_okButton.Click += new EventHandler(OnOkButtonClick);
             okButtonTableLayoutPanel.Controls.Add(m_okButton, 1, 0);
         }
 

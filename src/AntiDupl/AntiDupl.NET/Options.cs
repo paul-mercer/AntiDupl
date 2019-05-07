@@ -21,13 +21,9 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
-using System.Windows.Forms;
 
 namespace AntiDupl.NET
 {
@@ -39,8 +35,7 @@ namespace AntiDupl.NET
         public event ChangeHandler OnChange;
         public void Change()
         {
-            if (OnChange != null)
-                OnChange();
+            OnChange?.Invoke();
         }
 
         private string m_language = StringsDefaultEnglish.Get().Name;
@@ -81,15 +76,15 @@ namespace AntiDupl.NET
 
         static public Options Load()
         {
-            FileInfo fileInfo = new FileInfo(Options.GetOptionsFileName());
+            var fileInfo = new FileInfo(GetOptionsFileName());
             if (fileInfo.Exists)
             {
                 FileStream fileStream = null;
                 try
                 {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(Options));
-                    fileStream = new FileStream(Options.GetOptionsFileName(), FileMode.Open, FileAccess.Read);
-                    Options options = (Options)xmlSerializer.Deserialize(fileStream);
+                    var xmlSerializer = new XmlSerializer(typeof(Options));
+                    fileStream = new FileStream(GetOptionsFileName(), FileMode.Open, FileAccess.Read);
+                    var options = (Options)xmlSerializer.Deserialize(fileStream);
                     options.resultsOptions.Check();
                     fileStream.Close();
                     return options;
@@ -131,8 +126,8 @@ namespace AntiDupl.NET
             TextWriter writer = null;
             try
             {
-                writer = new StreamWriter(Options.GetOptionsFileName());
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Options));
+                writer = new StreamWriter(GetOptionsFileName());
+                var xmlSerializer = new XmlSerializer(typeof(Options));
                 xmlSerializer.Serialize(writer, this);
             }
             catch
@@ -167,13 +162,13 @@ namespace AntiDupl.NET
         public static void PathCopy(string[] source, ref string[] destination)
         {
             destination = new string[source.GetLength(0)];
-            for (int i = 0; i < source.GetLength(0); ++i)
+            for (var i = 0; i < source.GetLength(0); ++i)
                 destination[i] = (string)source[i].Clone();
         }
 
         public static string[] PathClone(string[] path)
         {
-            string[] clone = new string[0];
+            var clone = new string[0];
             PathCopy(path, ref clone);
             return clone;
         }
@@ -182,7 +177,7 @@ namespace AntiDupl.NET
         {
             if (path1.Length != path2.Length)
                 return false;
-            for (int i = 0; i < path1.Length; ++i)
+            for (var i = 0; i < path1.Length; ++i)
                 if (path1[i].CompareTo(path2[i]) != 0)
                     return false;
             return true;
@@ -190,7 +185,7 @@ namespace AntiDupl.NET
 
         static public string GetOptionsFileName()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(Resources.UserPath);
             builder.Append("\\options.xml");
             return builder.ToString();
@@ -198,7 +193,7 @@ namespace AntiDupl.NET
 
         static public string GetMistakeDataBaseFileName()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(Resources.UserPath);
             builder.Append("\\mistakes.adm");
             return builder.ToString();

@@ -22,19 +22,16 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AntiDupl.NET
 {
     public class LabeledComboBox : TableLayoutPanel
     {
-        private ComboBox m_comboBox;
         private Label m_label;
 
-        public ComboBox comboBox { get { return m_comboBox; } }
-        public override String Text { get { return m_label.Text; } set { m_label.Text = value; } }
+        public ComboBox comboBox { get; }
+        public override string Text { get { return m_label.Text; } set { m_label.Text = value; } }
 
         public LabeledComboBox(int comboBoxWidth, int comboBoxHeight, EventHandler selectedIndexChanged)
         {
@@ -43,13 +40,15 @@ namespace AntiDupl.NET
             ColumnCount = 2;
             RowCount = 1;
 
-            m_comboBox = new ComboBox();
-            m_comboBox.Size = new System.Drawing.Size(comboBoxWidth, comboBoxHeight);
-            m_comboBox.Padding = new Padding(0, 0, 0, 0);
-            m_comboBox.Margin = new Padding(0, 0, 0, 0);
-            m_comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            m_comboBox.SelectedIndexChanged += new EventHandler(selectedIndexChanged);
-            Controls.Add(m_comboBox, 0, 0);
+            comboBox = new ComboBox
+            {
+                Size = new System.Drawing.Size(comboBoxWidth, comboBoxHeight),
+                Padding = new Padding(0, 0, 0, 0),
+                Margin = new Padding(0, 0, 0, 0),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            comboBox.SelectedIndexChanged += new EventHandler(selectedIndexChanged);
+            Controls.Add(comboBox, 0, 0);
 
             m_label = InitFactory.Label.Create();
             m_label.Padding = new Padding(0, 5, 5, 5);
@@ -77,29 +76,29 @@ namespace AntiDupl.NET
         {
             get
             {
-                Value val = (Value)m_comboBox.SelectedItem;
+                var val = (Value)comboBox.SelectedItem;
                 return val.value;
             }
             set
             {
-                int index = -1;
-                int difference = int.MaxValue;
-                for (int i = 0; i < m_comboBox.Items.Count; i++)
+                var index = -1;
+                var difference = int.MaxValue;
+                for (var i = 0; i < comboBox.Items.Count; i++)
                 {
-                    Value current = (Value)m_comboBox.Items[i];
+                    var current = (Value)comboBox.Items[i];
                     if (Math.Abs(current.value - value) < difference)
                     {
                         difference = Math.Abs(current.value - value);
                         index = i;
                     }
                 }
-                m_comboBox.SelectedIndex = index;
+                comboBox.SelectedIndex = index;
             }
         }
 
         public void SetDescription(int index, string description)
         {
-            Value value = (Value)m_comboBox.Items[index];
+            var value = (Value)comboBox.Items[index];
             value.description = description;
         }
     }

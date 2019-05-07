@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Diagnostics;
@@ -38,24 +36,24 @@ namespace AntiDupl.NET
 
         public DynamicModule(string fileName)
         {
-            m_fileName = fileName;
+            FileName = fileName;
 
-            if (string.IsNullOrEmpty(m_fileName))
-                throw new Exception(string.Format("Bad library file name '{0}'!", m_fileName));
+            if (string.IsNullOrEmpty(FileName))
+                throw new Exception(string.Format("Bad library file name '{0}'!", FileName));
 
             try
             {
-                m_module = LoadLibrary(m_fileName);
+                m_module = LoadLibrary(FileName);
                 if (m_module == IntPtr.Zero)
-                    throw new Exception(string.Format("Can't load {0} dynamic library!", m_fileName));
+                    throw new Exception(string.Format("Can't load {0} dynamic library!", FileName));
 
                 FieldInfo[] fields = this.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
-                for (int i = 0; i < fields.Length; ++i)
+                for (var i = 0; i < fields.Length; ++i)
                 {
                     FieldInfo field = fields[i];
                     try
                     {
-                        object[] attributes = field.GetCustomAttributes(typeof(DynamicModuleApiAttribute), false);
+                        var attributes = field.GetCustomAttributes(typeof(DynamicModuleApiAttribute), false);
                         if (attributes.Length > 0)
                         {
                             IntPtr address = GetProcAddress(m_module, field.Name);
@@ -71,7 +69,7 @@ namespace AntiDupl.NET
             }
             catch
             {
-                throw new Exception(string.Format("Can't load {0} dynamic library!", m_fileName));
+                throw new Exception(string.Format("Can't load {0} dynamic library!", FileName));
             }
         }
 
@@ -90,12 +88,11 @@ namespace AntiDupl.NET
             GC.SuppressFinalize(this);
         }
 
-        public string FileName { get { return m_fileName; } }
+        public string FileName { get; }
 
         /************************************ Private Members: ************************************/
 
         private IntPtr m_module = IntPtr.Zero;
-        private string m_fileName;
 
         [DllImport("kernel32.dll",
             CharSet = CharSet.Ansi,

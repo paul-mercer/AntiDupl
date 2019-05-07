@@ -22,12 +22,9 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.Win32;
 using System.ComponentModel;
 
 namespace AntiDupl.NET
@@ -140,13 +137,15 @@ namespace AntiDupl.NET
 
         private void OpenImage(object sender, EventArgs e)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = m_imagePreviewPanel.CurrentImageInfo.path;
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = m_imagePreviewPanel.CurrentImageInfo.path
+            };
             try
             {
                 Process.Start(startInfo);
             }
-            catch (System.Exception exeption)
+            catch (Exception exeption)
             {
                 MessageBox.Show(exeption.Message);
             }

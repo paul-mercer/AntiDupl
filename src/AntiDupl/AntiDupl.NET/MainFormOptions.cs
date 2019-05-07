@@ -21,9 +21,6 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -44,8 +41,7 @@ namespace AntiDupl.NET
                 if (m_toolStripView != value)
                 {
                     m_toolStripView = value;
-                    if (OnToolStripVisibleChange != null)
-                        OnToolStripVisibleChange(m_toolStripView);
+                    OnToolStripVisibleChange?.Invoke(m_toolStripView);
                 }
             }
         }
@@ -63,8 +59,7 @@ namespace AntiDupl.NET
                 if (m_statusStripView != value)
                 {
                     m_statusStripView = value;
-                    if (OnStatusStripVisibleChange != null)
-                        OnStatusStripVisibleChange(m_statusStripView);
+                    OnStatusStripVisibleChange?.Invoke(m_statusStripView);
                 }
             }
         }
@@ -124,8 +119,8 @@ namespace AntiDupl.NET
         static private Point DefaultLocation()
         {
             Rectangle rect = Screen.PrimaryScreen.WorkingArea;
-            int left = (rect.Left + rect.Width - MainForm.MIN_WIDTH)/2;
-            int top = (rect.Top + rect.Height - MainForm.MIN_HEIGHT)/2;
+            var left = (rect.Left + rect.Width - MainForm.MIN_WIDTH)/2;
+            var top = (rect.Top + rect.Height - MainForm.MIN_HEIGHT)/2;
             return new Point(left, top);
         }
     }

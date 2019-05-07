@@ -22,11 +22,9 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using System.ComponentModel;
 
 namespace AntiDupl.NET
 {
@@ -38,11 +36,8 @@ namespace AntiDupl.NET
         const int TOP_INTEND = 2;
         const int RIGHT_INTEND = 1;
 
-        private Color m_separatorColor = Color.LightGray;
-        private Color m_markerColor = Color.Red;
-
-        public Color separatorColor { get { return m_separatorColor; } set { m_separatorColor = value; } }
-        public Color markerColor { get { return m_markerColor; } set { m_markerColor = value; } }
+        public Color separatorColor { get; set; } = Color.LightGray;
+        public Color markerColor { get; set; } = Color.Red;
 
         public enum MarkType
         {
@@ -51,21 +46,20 @@ namespace AntiDupl.NET
             Second,
             Both
         }
-        private MarkType m_markType = MarkType.None;
-        public MarkType markType { get { return m_markType; } set { m_markType = value; } }
+        public MarkType markType { get; set; } = MarkType.None;
 
 
-        private Object m_first;
-        private Object m_second;
+        private object m_first;
+        private object m_second;
 
-        public DataGridViewDoubleTextBoxCell(Object first, Object second)
+        public DataGridViewDoubleTextBoxCell(object first, object second)
         {
             m_first = first;
             m_second = second;
         }
 
         override protected void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds,
-          int rowIndex, DataGridViewElementStates cellState, Object value, Object formattedValue,
+          int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue,
           string errorText, DataGridViewCellStyle cellStyle,
           DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
         {
@@ -77,15 +71,15 @@ namespace AntiDupl.NET
             if ((cellState & DataGridViewElementStates.Selected) != 0)
             {
                 ordinaryColor = cellStyle.SelectionForeColor;
-                markColor = m_markerColor;
+                markColor = markerColor;
             }
             else
             {
                 ordinaryColor = cellStyle.ForeColor;
-                markColor = m_markerColor;
+                markColor = markerColor;
             }
 
-            switch (m_markType)
+            switch (markType)
             {
                 case MarkType.None:
                     firstColor = ordinaryColor;
@@ -109,10 +103,12 @@ namespace AntiDupl.NET
                     break;
             }
 
-            Pen separatorPen = new Pen(m_separatorColor);
-            int separatorX = (cellBounds.Top + cellBounds.Bottom) / 2;
-            StringFormat format = new StringFormat();
-            format.Trimming = StringTrimming.EllipsisCharacter;
+            var separatorPen = new Pen(separatorColor);
+            var separatorX = (cellBounds.Top + cellBounds.Bottom) / 2;
+            var format = new StringFormat
+            {
+                Trimming = StringTrimming.EllipsisCharacter
+            };
             format.FormatFlags |= StringFormatFlags.NoWrap;
 
             switch (cellStyle.Alignment)
@@ -159,13 +155,13 @@ namespace AntiDupl.NET
                     break;
             }
 
-            Rectangle firstBounds = new Rectangle(
+            var firstBounds = new Rectangle(
               cellBounds.Left + LEFT_INTEND, cellBounds.Top + TOP_INTEND,
               cellBounds.Width - LEFT_INTEND - RIGHT_INTEND, cellBounds.Height / 2 - TOP_INTEND);
             graphics.DrawString(m_first.ToString(), cellStyle.Font, new SolidBrush(firstColor),
               firstBounds, format);
 
-            Rectangle secondBounds = new Rectangle(
+            var secondBounds = new Rectangle(
               cellBounds.Left + LEFT_INTEND, separatorX + SEPARATOR_WIDTH + TOP_INTEND,
               cellBounds.Width - LEFT_INTEND - RIGHT_INTEND, cellBounds.Height / 2 - TOP_INTEND);
             graphics.DrawString(m_second.ToString(), cellStyle.Font, new SolidBrush(secondColor),
@@ -175,7 +171,7 @@ namespace AntiDupl.NET
 
             if (GetPreferredSize(graphics, cellStyle, rowIndex, new Size(0, 0)).Width > cellBounds.Width)
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 builder.AppendLine(m_first.ToString());
                 builder.Append(m_second.ToString());
                 ToolTipText = builder.ToString();

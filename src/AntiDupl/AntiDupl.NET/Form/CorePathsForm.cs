@@ -23,7 +23,6 @@
 */
 using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
@@ -37,7 +36,7 @@ namespace AntiDupl.NET
         static public int FORM_WIDTH = 450;
         static public int FORM_HEIGHT = 350;
 
-        private CoreLib m_core;
+        private readonly CoreLib m_core;
         private Options m_options;
         private CoreOptions m_oldCoreOptions; //опции до изменения
         private CoreOptions m_newCoreOptions; //опции после изменения
@@ -96,39 +95,51 @@ namespace AntiDupl.NET
             pathTableLayoutPanel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             mainTableLayoutPanel.Controls.Add(pathTableLayoutPanel, 0, 0);
 
-            m_tabControl = new TabControl();
-            m_tabControl.Dock = DockStyle.Fill;
-            m_tabControl.Location = new System.Drawing.Point(0, 0);
-            m_tabControl.Margin = new Padding(0);
+            m_tabControl = new TabControl
+            {
+                Dock = DockStyle.Fill,
+                Location = new System.Drawing.Point(0, 0),
+                Margin = new Padding(0)
+            };
             m_tabControl.Selected += new TabControlEventHandler(OnTabControlSelected);
             pathTableLayoutPanel.Controls.Add(m_tabControl, 0, 0);
 
-            m_searchTabPage = new TabPage();
-            m_searchTabPage.Tag = CoreDll.PathType.Search;
+            m_searchTabPage = new TabPage
+            {
+                Tag = CoreDll.PathType.Search
+            };
             m_tabControl.Controls.Add(m_searchTabPage);
 
-            m_toolTip = new ToolTip();
-            m_toolTip.ShowAlways = true;
+            m_toolTip = new ToolTip
+            {
+                ShowAlways = true
+            };
 
             m_searchCheckedList = InitFactory.CheckedListBox.Create(OnSelectedIndexChanged, OnListBoxDoubleClick, OnItemCheck);
             m_searchTabPage.Controls.Add(m_searchCheckedList);
 
-            m_ignoreTabPage = new TabPage();
-            m_ignoreTabPage.Tag = CoreDll.PathType.Ignore;
+            m_ignoreTabPage = new TabPage
+            {
+                Tag = CoreDll.PathType.Ignore
+            };
             m_tabControl.Controls.Add(m_ignoreTabPage);
 
             m_ignoreListBox = InitFactory.ListBox.Create(OnSelectedIndexChanged, OnListBoxDoubleClick);
             m_ignoreTabPage.Controls.Add(m_ignoreListBox);
 
-            m_validTabPage = new TabPage();
-            m_validTabPage.Tag = CoreDll.PathType.Valid;
+            m_validTabPage = new TabPage
+            {
+                Tag = CoreDll.PathType.Valid
+            };
             m_tabControl.Controls.Add(m_validTabPage);
 
             m_validListBox = InitFactory.ListBox.Create(OnSelectedIndexChanged, OnListBoxDoubleClick);
             m_validTabPage.Controls.Add(m_validListBox);
 
-            m_deleteTabPage = new TabPage();
-            m_deleteTabPage.Tag = CoreDll.PathType.Delete;
+            m_deleteTabPage = new TabPage
+            {
+                Tag = CoreDll.PathType.Delete
+            };
             m_tabControl.Controls.Add(m_deleteTabPage);
 
             m_deleteListBox = InitFactory.ListBox.Create(OnSelectedIndexChanged, OnListBoxDoubleClick);
@@ -141,23 +152,31 @@ namespace AntiDupl.NET
             pathButtonsTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             pathTableLayoutPanel.Controls.Add(pathButtonsTableLayoutPanel, 0, 1);
 
-            m_addFilesButton = new Button();
-            m_addFilesButton.AutoSize = true;
+            m_addFilesButton = new Button
+            {
+                AutoSize = true
+            };
             m_addFilesButton.Click += new EventHandler(OnAddFilesButtonClick);
             pathButtonsTableLayoutPanel.Controls.Add(m_addFilesButton, 0, 0);
 
-            m_addFolderButton = new Button();
-            m_addFolderButton.AutoSize = true;
+            m_addFolderButton = new Button
+            {
+                AutoSize = true
+            };
             m_addFolderButton.Click += new EventHandler(OnAddFolderButtonClick);
             pathButtonsTableLayoutPanel.Controls.Add(m_addFolderButton, 1, 0);
 
-            m_changeButton = new Button();
-            m_changeButton.AutoSize = true;
+            m_changeButton = new Button
+            {
+                AutoSize = true
+            };
             m_changeButton.Click += new EventHandler(OnChangeButtonClick);
             pathButtonsTableLayoutPanel.Controls.Add(m_changeButton, 2, 0);
 
-            m_removeButton = new Button();
-            m_removeButton.AutoSize = true;
+            m_removeButton = new Button
+            {
+                AutoSize = true
+            };
             m_removeButton.Click += new EventHandler(OnRemoveButtonClick);
             pathButtonsTableLayoutPanel.Controls.Add(m_removeButton, 3, 0);
 
@@ -274,7 +293,7 @@ namespace AntiDupl.NET
         private static string GetInitialPath(CorePathWithSubFolder[] paths)
         {
             string existedPath = null;
-            for (int i = 0; i < paths.Length; ++i)
+            for (var i = 0; i < paths.Length; ++i)
                 if (Directory.Exists(paths[i].path))
                     existedPath = paths[i].path;
             if (existedPath != null)
@@ -285,7 +304,7 @@ namespace AntiDupl.NET
 
         private string GetFilter()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append("Image files: ");
             if (m_newCoreOptions.searchOptions.JPEG)
                 builder.Append("JPEG; ");
@@ -342,9 +361,9 @@ namespace AntiDupl.NET
         /// <param name="box">Обновляемый ListBox</param>
         static private void UpdatePath(string[] path, ListBox box)
         {
-            int selectedIndex = box.SelectedIndex;
+            var selectedIndex = box.SelectedIndex;
             box.Items.Clear();
-            for (int i = 0; i < path.Length; ++i)
+            for (var i = 0; i < path.Length; ++i)
                 box.Items.Add(path[i]);
             if (selectedIndex >= 0 && selectedIndex < path.Length)
                 box.SelectedIndex = selectedIndex;
@@ -352,9 +371,9 @@ namespace AntiDupl.NET
 
         static private void UpdatePath(CorePathWithSubFolder[] paths, CheckedListBox box)
         {
-            int selectedIndex = box.SelectedIndex;
+            var selectedIndex = box.SelectedIndex;
             box.Items.Clear();
-            for (int i = 0; i < paths.Length; ++i)
+            for (var i = 0; i < paths.Length; ++i)
                 box.Items.Add(paths[i].path, paths[i].enableSubFolder);
             if (selectedIndex >= 0 && selectedIndex < paths.Length)
                 box.SelectedIndex = selectedIndex;
@@ -362,9 +381,9 @@ namespace AntiDupl.NET
 
         static private void UpdatePath(CorePathWithSubFolder[] paths, ListBox box)
         {
-            int selectedIndex = box.SelectedIndex;
+            var selectedIndex = box.SelectedIndex;
             box.Items.Clear();
-            for (int i = 0; i < paths.Length; ++i)
+            for (var i = 0; i < paths.Length; ++i)
                 box.Items.Add(paths[i].path);
             if (selectedIndex >= 0 && selectedIndex < paths.Length)
                 box.SelectedIndex = selectedIndex;
@@ -395,9 +414,11 @@ namespace AntiDupl.NET
             CorePathWithSubFolder[] path = GetCurrentPath();
             if (path == null)
                 return;
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.ShowNewFolderButton = false;
-            dialog.SelectedPath = GetInitialPath(path);
+            var dialog = new FolderBrowserDialog
+            {
+                ShowNewFolderButton = false,
+                SelectedPath = GetInitialPath(path)
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Array.Resize(ref path, path.Length + 1);
@@ -419,15 +440,17 @@ namespace AntiDupl.NET
             CorePathWithSubFolder[] path = GetCurrentPath();
             if (path == null)
                 return;
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = true;
-            dialog.RestoreDirectory = true;
-            dialog.InitialDirectory = GetInitialPath(path);
-            dialog.Filter = GetFilter();
+            var dialog = new OpenFileDialog
+            {
+                Multiselect = true,
+                RestoreDirectory = true,
+                InitialDirectory = GetInitialPath(path),
+                Filter = GetFilter()
+            };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Array.Resize(ref path, path.Length + dialog.FileNames.Length);
-                for (int i = 0; i < dialog.FileNames.Length; ++i)
+                for (var i = 0; i < dialog.FileNames.Length; ++i)
                 {
                     if (path[path.Length - 1 - i] == null)
                         path[path.Length - 1 - i] = new CorePathWithSubFolder();
@@ -446,7 +469,7 @@ namespace AntiDupl.NET
             RemovePath(false);
         }
 
-        private void OnTabControlSelected(Object sender, TabControlEventArgs e)
+        private void OnTabControlSelected(object sender, TabControlEventArgs e)
         {
             UpdateButtonEnabling();
         }
@@ -466,7 +489,7 @@ namespace AntiDupl.NET
             if (m_tabControl.SelectedTab == null)
                 m_tabControl.SelectedIndex = 0;
 
-            CoreDll.PathType pathType = (CoreDll.PathType)m_tabControl.SelectedTab.Tag;
+            var pathType = (CoreDll.PathType)m_tabControl.SelectedTab.Tag;
             CheckedListBox checkedListBox = GetCurrentCheckedListBox();
             CorePathWithSubFolder[] path = GetCurrentPath();
 
@@ -503,9 +526,11 @@ namespace AntiDupl.NET
                 return;
             if (Directory.Exists(path[listBox.SelectedIndex].path))
             {
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.ShowNewFolderButton = false;
-                dialog.SelectedPath = path[listBox.SelectedIndex].path;
+                var dialog = new FolderBrowserDialog
+                {
+                    ShowNewFolderButton = false,
+                    SelectedPath = path[listBox.SelectedIndex].path
+                };
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     if (dialog.SelectedPath[dialog.SelectedPath.Length - 1] == Path.DirectorySeparatorChar)
@@ -520,10 +545,12 @@ namespace AntiDupl.NET
             }
             else
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.RestoreDirectory = true;
-                dialog.FileName = path[listBox.SelectedIndex].path;
-                dialog.Filter = GetFilter();
+                var dialog = new OpenFileDialog
+                {
+                    RestoreDirectory = true,
+                    FileName = path[listBox.SelectedIndex].path,
+                    Filter = GetFilter()
+                };
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     path[listBox.SelectedIndex].path = dialog.FileName;
@@ -540,7 +567,7 @@ namespace AntiDupl.NET
             if (m_tabControl.SelectedTab == null)
                 m_tabControl.SelectedIndex = 0;
 
-            CoreDll.PathType pathType = (CoreDll.PathType)m_tabControl.SelectedTab.Tag;
+            var pathType = (CoreDll.PathType)m_tabControl.SelectedTab.Tag;
             ListBox listBox = GetCurrentListBox();
             CorePathWithSubFolder[] path = GetCurrentPath();
 
@@ -564,30 +591,34 @@ namespace AntiDupl.NET
 
         private CorePathWithSubFolder[] GetActualPath(string[] path)
         {
-            List<CorePathWithSubFolder> actualPath = new List<CorePathWithSubFolder>();
-            string[] actualExtensions = m_oldCoreOptions.searchOptions.GetActualExtensions(); //список поддерживаемых расширений
-            for (int i = 0; i < path.Length; ++i)
+            var actualPath = new List<CorePathWithSubFolder>();
+            var actualExtensions = m_oldCoreOptions.searchOptions.GetActualExtensions(); //список поддерживаемых расширений
+            for (var i = 0; i < path.Length; ++i)
             {
                 if (Directory.Exists(path[i]))
                 {
-                    CorePathWithSubFolder sfPath = new CorePathWithSubFolder();
-                    sfPath.path = path[i];
-                    sfPath.enableSubFolder = true;
+                    var sfPath = new CorePathWithSubFolder
+                    {
+                        path = path[i],
+                        enableSubFolder = true
+                    };
                     actualPath.Add(sfPath);
                 }
                 else
                 {
-                    FileInfo fileInfo = new FileInfo(path[i]);
+                    var fileInfo = new FileInfo(path[i]);
                     if (fileInfo.Extension.Length > 1)
                     {
-                        string extension = fileInfo.Extension.ToUpper().Substring(1);
-                        for (int j = 0; j < actualExtensions.Length; ++j)
+                        var extension = fileInfo.Extension.ToUpper().Substring(1);
+                        for (var j = 0; j < actualExtensions.Length; ++j)
                         {
                             if (extension == actualExtensions[j]) //если расширение из списка поддерживаемых
                             {
-                                CorePathWithSubFolder sfPath = new CorePathWithSubFolder();
-                                sfPath.path = path[i];
-                                sfPath.enableSubFolder = false;
+                                var sfPath = new CorePathWithSubFolder
+                                {
+                                    path = path[i],
+                                    enableSubFolder = false
+                                };
                                 actualPath.Add(sfPath);
                                 break;
                             }
@@ -602,7 +633,7 @@ namespace AntiDupl.NET
         {
             if (additional.Length > 0)
             {
-                List<CorePathWithSubFolder> path = new List<CorePathWithSubFolder>(GetCurrentPath());
+                var path = new List<CorePathWithSubFolder>(GetCurrentPath());
                 CorePathWithSubFolder[] current = GetCurrentPath();
                 CorePathWithSubFolder[] actual = GetActualPath(additional);
 
@@ -643,7 +674,7 @@ namespace AntiDupl.NET
 
         private void OnDragDrop(object sender, DragEventArgs e)
         {
-            string[] path = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var path = (string[])e.Data.GetData(DataFormats.FileDrop);
             AddPath(path);
         }
 
@@ -651,7 +682,7 @@ namespace AntiDupl.NET
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
             {
-                string[] path = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var path = (string[])e.Data.GetData(DataFormats.FileDrop);
                 if (GetActualPath(path).Length > 0)
                 {
                     e.Effect = DragDropEffects.All;
@@ -678,13 +709,13 @@ namespace AntiDupl.NET
                     if (Clipboard.ContainsFileDropList())
                     {
                         StringCollection fileDropList = Clipboard.GetFileDropList();
-                        string[] path = new string[fileDropList.Count];
+                        var path = new string[fileDropList.Count];
                         fileDropList.CopyTo(path, 0);
                         AddPath(path);
                     }
                     else if (Clipboard.ContainsText())
                     {
-                        string[] path = new string[1];
+                        var path = new string[1];
                         path[0] = Clipboard.GetText();
                         AddPath(path);
                     }

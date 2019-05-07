@@ -21,9 +21,6 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -61,14 +58,18 @@ namespace AntiDupl.NET
 
         private void InitializeComponents()
         {
-            m_toolStrip = new ToolStrip();
-            m_toolStrip.GripStyle = ToolStripGripStyle.Hidden;
-            m_toolStrip.RenderMode = ToolStripRenderMode.System;
-            m_toolStrip.Renderer = new CustomToolStripSystemRenderer();
-            m_toolStrip.AutoSize = true;
+            m_toolStrip = new ToolStrip
+            {
+                GripStyle = ToolStripGripStyle.Hidden,
+                RenderMode = ToolStripRenderMode.System,
+                Renderer = new CustomToolStripSystemRenderer(),
+                AutoSize = true
+            };
 
-            m_toolStripPanel = new ToolStripPanel();
-            m_toolStripPanel.BackColor = SystemColors.Control;
+            m_toolStripPanel = new ToolStripPanel
+            {
+                BackColor = SystemColors.Control
+            };
 
             m_nextButton = InitFactory.ToolButton.Create("NextButton", null, OnNextButtonClicked);
             m_previousButton = InitFactory.ToolButton.Create("PreviousButton", null, OnPreviousButtonClicked);

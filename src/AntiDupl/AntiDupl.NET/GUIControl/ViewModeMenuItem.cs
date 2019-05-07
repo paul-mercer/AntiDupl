@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -47,7 +45,7 @@ namespace AntiDupl.NET
             UpdateStrings();
             UpdateIcons(m_options.resultsOptions.viewMode);
             Resources.Strings.OnCurrentChange += new Resources.Strings.CurrentChangeHandler(UpdateStrings);
-            m_options.resultsOptions.OnViewModeChange += new AntiDupl.NET.ResultsOptions.ViewModeChangeHandler(UpdateIcons);
+            m_options.resultsOptions.OnViewModeChange += new ResultsOptions.ViewModeChangeHandler(UpdateIcons);
         }
 
         private void InitializeComponents()
@@ -69,7 +67,7 @@ namespace AntiDupl.NET
 
         private void OnClick(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = (ToolStripMenuItem)sender;
             m_options.resultsOptions.viewMode = (ResultsOptions.ViewMode)item.Tag;
         }
 

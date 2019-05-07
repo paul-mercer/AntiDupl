@@ -22,10 +22,8 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 using System.Drawing;
 using System.Threading;
 
@@ -68,7 +66,7 @@ namespace AntiDupl.NET
 
         private void InitializeComponent()
         {
-            ClientSize = new System.Drawing.Size(310, 225);
+            ClientSize = new Size(310, 225);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             StartPosition = FormStartPosition.CenterScreen;
             ShowInTaskbar = false;
@@ -81,20 +79,26 @@ namespace AntiDupl.NET
             mainTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             Controls.Add(mainTableLayoutPanel);
 
-            m_aboutProgramPanel = new AboutProgramPanel(m_core);
-            m_aboutProgramPanel.Location = new Point(0, 0);
-            m_aboutProgramPanel.Dock = DockStyle.Fill;
+            m_aboutProgramPanel = new AboutProgramPanel(m_core)
+            {
+                Location = new Point(0, 0),
+                Dock = DockStyle.Fill
+            };
             mainTableLayoutPanel.Controls.Add(m_aboutProgramPanel, 0, 0);
 
-            m_progressBar = new ProgressBar();
-            m_progressBar.Location = new Point(0, 0);
-            m_progressBar.Dock = DockStyle.Bottom;
-            m_progressBar.Style = ProgressBarStyle.Continuous;
-            m_progressBar.Margin = new Padding(0);
+            m_progressBar = new ProgressBar
+            {
+                Location = new Point(0, 0),
+                Dock = DockStyle.Bottom,
+                Style = ProgressBarStyle.Continuous,
+                Margin = new Padding(0)
+            };
             mainTableLayoutPanel.Controls.Add(m_progressBar, 0, 1);
 
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Interval = 100;
+            m_timer = new System.Windows.Forms.Timer
+            {
+                Interval = 100
+            };
             m_timer.Tick += new EventHandler(TimerCallback);
             m_timer.Start();
 
@@ -142,7 +146,7 @@ namespace AntiDupl.NET
         {
             ShowInTaskbar = true;
             m_state = State.Start;
-            Thread searchThread = new Thread(CoreStartThreadTask);
+            var searchThread = new Thread(CoreStartThreadTask);
             searchThread.Start();
             ShowDialog();
         }
@@ -150,12 +154,12 @@ namespace AntiDupl.NET
         public void ExecuteFinish()
         {
             m_state = State.Start;
-            Thread searchThread = new Thread(CoreFinishThreadTask);
+            var searchThread = new Thread(CoreFinishThreadTask);
             searchThread.Start();
             ShowDialog();
         }
 
-        void TimerCallback(Object obj, EventArgs eventArgs)
+        void TimerCallback(object obj, EventArgs eventArgs)
         {
             if (m_state == State.Finish)
             {
@@ -168,7 +172,7 @@ namespace AntiDupl.NET
             }
             else
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 builder.Append(Application.ProductName);
                 builder.Append(" - ");
 

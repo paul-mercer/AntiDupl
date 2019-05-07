@@ -21,9 +21,6 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -34,15 +31,12 @@ namespace AntiDupl.NET
     /// </summary>
     public class ThumbnailPreview : Panel
     {
-        private CoreLib m_core;
-        private Options m_options;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
         private MainSplitContainer m_mainSplitContainer;
-        
-        private CoreGroup m_group = null;
-        public CoreGroup Group { get { return m_group; } }
-        private int m_index = 0;
-        public int Index { get { return m_index; } }
-        public CoreImageInfo ImageInfo { get { return m_group.images[m_index]; } }
+        public CoreGroup Group { get; private set; } = null;
+        public int Index { get; private set; } = 0;
+        public CoreImageInfo ImageInfo { get { return Group.images[Index]; } }
 
         private PictureBoxPanel m_pictureBoxPanel;
         
@@ -57,7 +51,7 @@ namespace AntiDupl.NET
         
         private void InnitializeComponents()
         {
-            Location = new System.Drawing.Point(0, 0);
+            Location = new Point(0, 0);
             Dock = DockStyle.Fill;
 
             m_pictureBoxPanel = new PictureBoxPanel(m_core, m_options);
@@ -67,10 +61,12 @@ namespace AntiDupl.NET
 
         private void InnitializeTestButton()
         {
-            Button testButton = new Button();
-            testButton.Text = "Test";
-            testButton.Location = new Point(10, 10);
-            testButton.AutoSize = true;
+            var testButton = new Button
+            {
+                Text = "Test",
+                Location = new Point(10, 10),
+                AutoSize = true
+            };
             testButton.Click += (sender, e) =>
             {
                 m_mainSplitContainer.UpdateResults();
@@ -80,10 +76,10 @@ namespace AntiDupl.NET
 
         public void SetThumbnail(CoreGroup group, int index)
         {
-            m_group = group;
-            m_index = index;
+            Group = group;
+            Index = index;
             m_pictureBoxPanel.UpdateImage(ImageInfo);
-            m_pictureBoxPanel.UpdateImagePadding(m_group.sizeMax);
+            m_pictureBoxPanel.UpdateImagePadding(Group.sizeMax);
             m_pictureBoxPanel.Refresh();
         }
     }

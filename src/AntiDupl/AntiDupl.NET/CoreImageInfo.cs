@@ -22,7 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace AntiDupl.NET
@@ -56,7 +55,7 @@ namespace AntiDupl.NET
 
         public string GetImageSizeString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(width);
             builder.Append(" x ");
             builder.Append(height);
@@ -65,7 +64,7 @@ namespace AntiDupl.NET
 
         public string GetImageTypeString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             switch (type)
             {
                 case CoreDll.ImageType.None:
@@ -128,9 +127,9 @@ namespace AntiDupl.NET
 
         public string GetFileSizeString()
         {
-            StringBuilder builder = new StringBuilder();
-            string str = (Math.Ceiling(size / 1024.0)).ToString();
-            int start = str.Length % 3;
+            var builder = new StringBuilder();
+            var str = (Math.Ceiling(size / 1024.0)).ToString();
+            var start = str.Length % 3;
             switch (start)
             {
                 case 0:
@@ -145,7 +144,7 @@ namespace AntiDupl.NET
                     builder.Append(" ");
                     break;
             }
-            for (int i = start; i < str.Length; i += 3)
+            for (var i = start; i < str.Length; i += 3)
             {
                 builder.Append(str[i + 0]);
                 builder.Append(str[i + 1]);
@@ -159,7 +158,7 @@ namespace AntiDupl.NET
         public string GetTipString()
         {
             Strings s = Resources.Strings.Current;
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             builder.AppendLine(path);
 
@@ -180,7 +179,7 @@ namespace AntiDupl.NET
 
         public string GetDirectoryString()
         {
-            int i = path.Length - 1;
+            var i = path.Length - 1;
             while (i >= 0 && path[i] != '\\') i--;
             if (i < 0)
                 return "";

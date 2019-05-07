@@ -22,7 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 
@@ -38,9 +37,9 @@ namespace AntiDupl.NET
                 string customSavePath = null;
                 if (GetParameter(args, "-s", ref customSavePath))
                 {
-                    DirectoryInfo directoryInfo = new DirectoryInfo(customSavePath);
+                    var directoryInfo = new DirectoryInfo(customSavePath);
                     if (!directoryInfo.Exists)
-                        throw new Exception(String.Format("The directory '{0}' is not exists!", customSavePath));
+                        throw new Exception(string.Format("The directory '{0}' is not exists!", customSavePath));
                     Resources.UserPath = customSavePath;
                 }
                 else
@@ -59,9 +58,9 @@ namespace AntiDupl.NET
 
         static bool GetParameter(string[] args, string name, ref string value)
         {
-            for(int i = 0; i < args.Length - 1; i++)
+            for(var i = 0; i < args.Length - 1; i++)
             {
-                if(String.Compare(args[i], name) == 0)
+                if(string.Compare(args[i], name) == 0)
                 {
                     value = args[i + 1];
                     return true;

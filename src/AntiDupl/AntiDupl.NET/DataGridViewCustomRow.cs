@@ -21,12 +21,8 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using System.ComponentModel;
 
 namespace AntiDupl.NET
 {
@@ -44,25 +40,25 @@ namespace AntiDupl.NET
             base.Paint(graphics, clipBounds, rowBounds, rowIndex, state, isFirstDisplayedRow, isLastVisibleRow);
             if (current)
             {
-                int cellsWidth = 0;
-                for (int i = 0; i < Cells.Count; i++)
+                var cellsWidth = 0;
+                for (var i = 0; i < Cells.Count; i++)
                 {
                     if (Cells[i].Visible)
                     {
                         cellsWidth += Cells[i].Size.Width;
                     }
                 }
-                Rectangle cellsBounds = new Rectangle(rowBounds.X, rowBounds.Y, 
+                var cellsBounds = new Rectangle(rowBounds.X, rowBounds.Y, 
                     rowBounds.X + cellsWidth - 2, rowBounds.Height - 2);
                 
-                Rectangle visibleClipBounds = new Rectangle(
+                var visibleClipBounds = new Rectangle(
                     (int)graphics.VisibleClipBounds.X, 
                     (int)graphics.VisibleClipBounds.Y,
                     (int)graphics.VisibleClipBounds.Width - 1, 
                     (int)graphics.VisibleClipBounds.Height - 1);
                 visibleClipBounds.Intersect(cellsBounds);
 
-                Pen pen = new Pen(Color.White);
+                var pen = new Pen(Color.White);
                 graphics.DrawRectangle(pen, visibleClipBounds);
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                 pen.Color = Color.Black;

@@ -22,10 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AntiDupl.NET
@@ -35,7 +31,7 @@ namespace AntiDupl.NET
         private ResultsListView m_resultsListView;
         private Options m_options;
         private ResultsOptions m_newResultOptions;
-        private bool m_inited = false;
+        private readonly bool m_inited = false;
 
         private CheckBox[] m_checkBoxes;
         private Button m_okButton;
@@ -132,11 +128,11 @@ namespace AntiDupl.NET
             mainTableLayoutPanel.Controls.Add(buttonsTableLayoutPanel, 0, 1);
 
             m_okButton = new Button();
-            m_okButton.Click += new System.EventHandler(OnButtonClick);
+            m_okButton.Click += new EventHandler(OnButtonClick);
             buttonsTableLayoutPanel.Controls.Add(m_okButton, 1, 0);
 
             m_cancelButton = new Button();
-            m_cancelButton.Click += new System.EventHandler(OnButtonClick);
+            m_cancelButton.Click += new EventHandler(OnButtonClick);
             buttonsTableLayoutPanel.Controls.Add(m_cancelButton, 2, 0);
         }
 
@@ -176,7 +172,7 @@ namespace AntiDupl.NET
 
         private void OnButtonClick(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
+            var button = (Button)sender;
             if(button == m_okButton)
             {
                 m_newResultOptions.CopyTo(ref m_options.resultsOptions);
@@ -196,7 +192,7 @@ namespace AntiDupl.NET
 
         private void GetOptions()
         {
-            for (int i = 0; i < (int)ResultsListView.ColumnsTypeHorizontal.Size; i++)
+            for (var i = 0; i < (int)ResultsListView.ColumnsTypeHorizontal.Size; i++)
             {
                 m_checkBoxes[i].Checked = m_newResultOptions.columnOptionsHorizontal[i].visible;
             }
@@ -204,7 +200,7 @@ namespace AntiDupl.NET
 
         private void SetOptions()
         {
-            for (int i = 0; i < (int)ResultsListView.ColumnsTypeHorizontal.Size; i++)
+            for (var i = 0; i < (int)ResultsListView.ColumnsTypeHorizontal.Size; i++)
             {
                 m_newResultOptions.columnOptionsHorizontal[i].visible = m_checkBoxes[i].Checked;
             }

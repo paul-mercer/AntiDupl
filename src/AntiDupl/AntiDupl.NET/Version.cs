@@ -22,10 +22,8 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 
 namespace AntiDupl.NET
@@ -38,7 +36,7 @@ namespace AntiDupl.NET
 
         public Version()
         {
-            string[] versions = External.Version.Split('.');
+            var versions = External.Version.Split('.');
             major = Convert.ToInt32(versions[0]);
             minor = Convert.ToInt32(versions[1]);
             release = Convert.ToInt32(versions[2]);
@@ -48,8 +46,8 @@ namespace AntiDupl.NET
         {
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Version));
-                Version version = (Version)xmlSerializer.Deserialize(stream);
+                var xmlSerializer = new XmlSerializer(typeof(Version));
+                var version = (Version)xmlSerializer.Deserialize(stream);
                 return version;
             }
             catch
@@ -63,7 +61,7 @@ namespace AntiDupl.NET
             try
             {
                 TextWriter writer = new StreamWriter(fileName);
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Version));
+                var xmlSerializer = new XmlSerializer(typeof(Version));
                 xmlSerializer.Serialize(writer, this);
             }
             catch
@@ -73,7 +71,7 @@ namespace AntiDupl.NET
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(major.ToString());
             builder.Append(".");
             builder.Append(minor.ToString());
@@ -99,7 +97,7 @@ namespace AntiDupl.NET
 
         static public bool Compatible(CoreVersion coreVersion)
         {
-            Version version = new Version();
+            var version = new Version();
             return
                 version.major == coreVersion.major &&
                 version.minor == coreVersion.minor &&

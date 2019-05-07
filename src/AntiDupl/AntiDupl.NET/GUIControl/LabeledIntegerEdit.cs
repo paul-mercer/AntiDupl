@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AntiDupl.NET
@@ -36,9 +34,9 @@ namespace AntiDupl.NET
         private int m_min = int.MinValue;
         private int m_max = int.MaxValue;
         private int m_default = 0;
-        private EventHandler m_valueChangedHandler;
+        private readonly EventHandler m_valueChangedHandler;
 
-        public override String Text { get { return m_label.Text; } set { m_label.Text = value; } }
+        public override string Text { get { return m_label.Text; } set { m_label.Text = value; } }
 
         public int Value
         {
@@ -103,23 +101,27 @@ namespace AntiDupl.NET
             ColumnCount = 2;
             RowCount = 1;
 
-            m_textBox = new TextBox();
-            m_textBox.Size = new System.Drawing.Size(textBoxWidth, textBoxHeight);
-            m_textBox.Padding = new Padding(0, 0, 0, 0);
-            m_textBox.Margin = new Padding(0, 0, 0, 0);
-            m_textBox.Multiline = false;
+            m_textBox = new TextBox
+            {
+                Size = new System.Drawing.Size(textBoxWidth, textBoxHeight),
+                Padding = new Padding(0, 0, 0, 0),
+                Margin = new Padding(0, 0, 0, 0),
+                Multiline = false
+            };
             m_textBox.KeyUp += new KeyEventHandler(OnTextBoxKeyUp);
             Controls.Add(m_textBox, 0, 0);
 
-            m_label = new System.Windows.Forms.Label();
-            m_label.AutoSize = true;
-            m_label.Padding = new Padding(0, 5, 5, 5);
+            m_label = new Label
+            {
+                AutoSize = true,
+                Padding = new Padding(0, 5, 5, 5)
+            };
             Controls.Add(m_label, 1, 0);
         }
 
         private void OnTextBoxKeyUp(object sender, KeyEventArgs e)
         {
-            int old = m_value;
+            var old = m_value;
 
             try
             {
@@ -129,7 +131,7 @@ namespace AntiDupl.NET
                     m_value = old;
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 m_value = old;
             }

@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AntiDupl.NET
@@ -39,13 +37,13 @@ namespace AntiDupl.NET
         private float m_min = int.MinValue;
         private float m_max = int.MaxValue;
         private float m_default = 0;
-        private EventHandler m_valueChangedHandler;
+        private readonly EventHandler m_valueChangedHandler;
 
-        public override String Text { get { return m_label.Text; } set { m_label.Text = value; } }
+        public override string Text { get { return m_label.Text; } set { m_label.Text = value; } }
 
         public float Value
         {
-            get { return Decimal.ToSingle(m_numericUpDown.Value); }
+            get { return decimal.ToSingle(m_numericUpDown.Value); }
             set
             {
                 if (value > m_max || value < m_min)
@@ -110,34 +108,38 @@ namespace AntiDupl.NET
             ColumnCount = 2;
             RowCount = 1;
 
-            m_numericUpDown = new NumericUpDown();
-            m_numericUpDown.Margin = new Padding(0);
-            m_numericUpDown.DecimalPlaces = decimalPlaces;
-            m_numericUpDown.Increment = increment;
-            m_numericUpDown.Minimum = minimum;
-            m_numericUpDown.Value = value;
-            m_numericUpDown.ValueChanged += new System.EventHandler(OnValueChanged); //вызов сначала внутренней функции
+            m_numericUpDown = new NumericUpDown
+            {
+                Margin = new Padding(0),
+                DecimalPlaces = decimalPlaces,
+                Increment = increment,
+                Minimum = minimum,
+                Value = value
+            };
+            m_numericUpDown.ValueChanged += new EventHandler(OnValueChanged); //вызов сначала внутренней функции
             Controls.Add(m_numericUpDown, 0, 0);
 
-            m_label = new System.Windows.Forms.Label();
-            m_label.AutoSize = true;
-            m_label.Padding = new Padding(0, 5, 5, 5);
+            m_label = new Label
+            {
+                AutoSize = true,
+                Padding = new Padding(0, 5, 5, 5)
+            };
             Controls.Add(m_label, 1, 0);
         }
 
         private void OnValueChanged(object sender, EventArgs e)
         {
-           float old = m_value;
+           var old = m_value;
 
             try
             {
-                m_value = Decimal.ToSingle(m_numericUpDown.Value);
+                m_value = decimal.ToSingle(m_numericUpDown.Value);
                 if (m_value > m_max || m_value < m_min)
                 {
                     m_value = old;
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 m_value = old;
             }

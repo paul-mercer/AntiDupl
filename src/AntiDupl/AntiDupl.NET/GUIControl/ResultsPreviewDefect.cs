@@ -21,11 +21,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
 using System.Diagnostics;
 
 namespace AntiDupl.NET
@@ -73,16 +69,18 @@ namespace AntiDupl.NET
 
         private void OnImageDoubleClicked(object sender, System.EventArgs e)
         {
-            PictureBox pictureBox = (PictureBox)sender;
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = pictureBox.ImageLocation;
+            var pictureBox = (PictureBox)sender;
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = pictureBox.ImageLocation
+            };
             Process.Start(startInfo);
         }
 
         private void OnButtonClicked(object sender, System.EventArgs e)
         {
-            ToolStripButton item = (ToolStripButton)sender;
-            CoreDll.LocalActionType action = (CoreDll.LocalActionType)item.Tag;
+            var item = (ToolStripButton)sender;
+            var action = (CoreDll.LocalActionType)item.Tag;
             m_resultsListView.MakeAction(action, CoreDll.TargetType.Current);
         }
 

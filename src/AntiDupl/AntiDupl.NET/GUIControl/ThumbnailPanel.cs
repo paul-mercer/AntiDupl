@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
@@ -40,8 +38,8 @@ namespace AntiDupl.NET
 
         private CoreLib m_core;
         private CoreGroup m_group;
-        private int m_index;
-        private AntiDupl.NET.Options m_options;
+        private readonly int m_index;
+        private Options m_options;
         private ThumbnailGroupPanel m_thumbnailGroupPanel;
 
         private TableLayoutPanel m_mainLayout;
@@ -79,7 +77,7 @@ namespace AntiDupl.NET
 
         public CoreImageInfo ImageInfo { get { return m_group.images[m_index]; } }
 
-        public ThumbnailPanel(CoreLib core, AntiDupl.NET.Options options, CoreGroup group, int index, ThumbnailGroupPanel thumbnailGroupPanel)
+        public ThumbnailPanel(CoreLib core, Options options, CoreGroup group, int index, ThumbnailGroupPanel thumbnailGroupPanel)
         {
             m_core = core;
             m_options = options;
@@ -102,25 +100,29 @@ namespace AntiDupl.NET
 
             m_controlLayout = InitFactory.Layout.Create(1, 1, 0, 0);
             m_controlLayout.Height = 16;
-            m_checkBox = new CheckBox();
-            m_checkBox.Location = new Point(0, 0);
-            m_checkBox.Margin = new Padding(0);
-            m_checkBox.Padding = new Padding(0);
-            m_checkBox.Height = 16;
+            m_checkBox = new CheckBox
+            {
+                Location = new Point(0, 0),
+                Margin = new Padding(0),
+                Padding = new Padding(0),
+                Height = 16
+            };
             m_checkBox.Click += new EventHandler(OnCheckBoxClick);
 
 
             m_controlLayout.Controls.Add(m_checkBox, 0, 0);
 
 
-            m_pictureBox = new PictureBox();
-            m_pictureBox.Location = new Point(0, 0);
-            m_pictureBox.ClientSize = m_options.resultsOptions.thumbnailSizeMax;
-            m_pictureBox.SizeMode = PictureBoxSizeMode.Zoom; 
-            m_pictureBox.BorderStyle = BorderStyle.Fixed3D;
-            m_pictureBox.Image = null;
-            m_pictureBox.Padding = new Padding(0);
-            m_pictureBox.Margin = new Padding(0);
+            m_pictureBox = new PictureBox
+            {
+                Location = new Point(0, 0),
+                ClientSize = m_options.resultsOptions.thumbnailSizeMax,
+                SizeMode = PictureBoxSizeMode.Zoom,
+                BorderStyle = BorderStyle.Fixed3D,
+                Image = null,
+                Padding = new Padding(0),
+                Margin = new Padding(0)
+            };
             m_pictureBox.Location = new Point(Padding.Left, Padding.Top);
             m_pictureBox.BackColor = Color.Transparent;
             m_pictureBox.Click += new EventHandler(OnClick);
@@ -152,13 +154,15 @@ namespace AntiDupl.NET
 
         private Label CreateLabel()
         {
-            Label label = new Label();
-            label.Location = new Point(0, 0);
-            label.Padding = new Padding(0, 0, 0, 0);
-            label.Margin = new Padding(0, 0, 0, 0);
-            label.TextAlign = ContentAlignment.TopCenter;
-            label.AutoSize = false;
-            label.BorderStyle = BorderStyle.Fixed3D;
+            var label = new Label
+            {
+                Location = new Point(0, 0),
+                Padding = new Padding(0, 0, 0, 0),
+                Margin = new Padding(0, 0, 0, 0),
+                TextAlign = ContentAlignment.TopCenter,
+                AutoSize = false,
+                BorderStyle = BorderStyle.Fixed3D
+            };
             label.Height = label.Font.Height + 2;
             label.FlatStyle = FlatStyle.System;
             label.Text = "0";
@@ -178,8 +182,8 @@ namespace AntiDupl.NET
             m_fileNameLabel.Location = new Point(0, 0);
 
             Font font = m_fileSizeLabel.Font;
-            int width = m_pictureBox.Width + Padding.Horizontal;
-            int height = m_pictureBox.Height + (font.Height + m_fileSizeLabel.Margin.Vertical + m_fileSizeLabel.Padding.Vertical +
+            var width = m_pictureBox.Width + Padding.Horizontal;
+            var height = m_pictureBox.Height + (font.Height + m_fileSizeLabel.Margin.Vertical + m_fileSizeLabel.Padding.Vertical +
                 m_infoLayout.Padding.Vertical)*3 + m_mainLayout.Padding.Vertical + m_mainLayout.Margin.Vertical + Padding.Vertical + 8;
             ClientSize = new Size(width, height);
         }
@@ -193,7 +197,7 @@ namespace AntiDupl.NET
             m_imageTypeLabel.Text = (info.type == CoreDll.ImageType.None ? "   " : info.GetImageTypeString());
             m_fileNameLabel.Text = Path.GetFileNameWithoutExtension(info.path);
 
-            bool[] selected = m_core.GetSelection(m_group.id, (uint)m_index, 1);
+            var selected = m_core.GetSelection(m_group.id, (uint)m_index, 1);
             m_checkBox.Checked = selected[0];
         }
 

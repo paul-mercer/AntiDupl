@@ -22,7 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace AntiDupl.NET
@@ -32,15 +31,15 @@ namespace AntiDupl.NET
         public static string GetProgressString(double progress, DateTime startDateTime)
         {
             Strings s = Resources.Strings.Current;
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.AppendFormat(s.ProgressUtils_Completed, Convert.ToInt32(Math.Ceiling(progress * 100)).ToString());
             if (progress > 0.0001)
             {
                 builder.Append("; ");
                 TimeSpan used = DateTime.Now - startDateTime;
-                double usedMilliseconds = used.TotalMilliseconds;
-                double remainedMilliseconds = usedMilliseconds * (1 - progress) / progress;
-                TimeSpan remained = TimeSpan.FromMilliseconds(remainedMilliseconds);
+                var usedMilliseconds = used.TotalMilliseconds;
+                var remainedMilliseconds = usedMilliseconds * (1 - progress) / progress;
+                var remained = TimeSpan.FromMilliseconds(remainedMilliseconds);
                 if (remained.Hours >= 4 || remained.Days > 0)
                 {
                     builder.AppendFormat(s.ProgressUtils_5HoursRemaining, remained.Days*24 + remained.Hours + 1);
@@ -51,7 +50,7 @@ namespace AntiDupl.NET
                 }
                 else if (remained.Minutes >= 4)
                 {
-                    int minuts = (remained.Minutes / 5 + 1) * 5;
+                    var minuts = (remained.Minutes / 5 + 1) * 5;
                     builder.AppendFormat(s.ProgressUtils_5MinutesRemaining, minuts);
                 }
                 else if (remained.Minutes >= 1)
@@ -60,7 +59,7 @@ namespace AntiDupl.NET
                 }
                 else
                 {
-                    int seconds = (remained.Seconds / 5 + 1) * 5;
+                    var seconds = (remained.Seconds / 5 + 1) * 5;
                     builder.AppendFormat(s.ProgressUtils_5SecondsRemaining, seconds);
                 }
             }

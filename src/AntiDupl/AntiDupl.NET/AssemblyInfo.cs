@@ -22,7 +22,6 @@
 * SOFTWARE.
 */
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("AntiDupl.NET")]
@@ -35,4 +34,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion(AntiDupl.NET.External.Version)]
 [assembly: AssemblyFileVersion(AntiDupl.NET.External.Version)]
-[assembly: ComVisibleAttribute(false)]
+[assembly: ComVisible(false)]

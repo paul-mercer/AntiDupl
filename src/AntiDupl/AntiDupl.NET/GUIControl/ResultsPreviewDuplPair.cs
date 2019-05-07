@@ -23,11 +23,9 @@
 */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
-using System.IO;
 using System.Threading;
 
 namespace AntiDupl.NET
@@ -141,10 +139,10 @@ namespace AntiDupl.NET
 
         static private Color MixColors(Color firstColor, int firstWeight, Color secondColor, int secondWeight)
         {
-            int A = (firstColor.A * firstWeight + secondColor.A * secondWeight) / (firstWeight + secondWeight);
-            int R = (firstColor.R * firstWeight + secondColor.R * secondWeight) / (firstWeight + secondWeight);
-            int G = (firstColor.G * firstWeight + secondColor.G * secondWeight) / (firstWeight + secondWeight);
-            int B = (firstColor.B * firstWeight + secondColor.B * secondWeight) / (firstWeight + secondWeight);
+            var A = (firstColor.A * firstWeight + secondColor.A * secondWeight) / (firstWeight + secondWeight);
+            var R = (firstColor.R * firstWeight + secondColor.R * secondWeight) / (firstWeight + secondWeight);
+            var G = (firstColor.G * firstWeight + secondColor.G * secondWeight) / (firstWeight + secondWeight);
+            var B = (firstColor.B * firstWeight + secondColor.B * secondWeight) / (firstWeight + secondWeight);
             return Color.FromArgb(A, R, G, B);
         }
 
@@ -177,18 +175,20 @@ namespace AntiDupl.NET
             m_renameSecondToFirstButton.BackColor = BackColor;
         }
 
-        private void OnButtonClicked(object sender, System.EventArgs e)
+        private void OnButtonClicked(object sender, EventArgs e)
         {
-            ToolStripButton item = (ToolStripButton)sender;
-            CoreDll.LocalActionType action = (CoreDll.LocalActionType)item.Tag;
+            var item = (ToolStripButton)sender;
+            var action = (CoreDll.LocalActionType)item.Tag;
             m_resultsListView.MakeAction(action, CoreDll.TargetType.Current);
         }
 
-        private void OnImageDoubleClicked(object sender, System.EventArgs e)
+        private void OnImageDoubleClicked(object sender, EventArgs e)
         {
-            PictureBox pictureBox = (PictureBox)sender;
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = pictureBox.ImageLocation;
+            var pictureBox = (PictureBox)sender;
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = pictureBox.ImageLocation
+            };
             Process.Start(startInfo);
         }
 
@@ -268,8 +268,10 @@ namespace AntiDupl.NET
                 ComparableBitmap[] bitmap1 = m_firstImagePreviewPanel.GetImageFragments();
                 ComparableBitmap[] bitmap2 = m_secondImagePreviewPanel.GetImageFragments();
                 _thread = new Thread(
-                     unused => CalculateRectanglesOfDifferences(bitmap1, bitmap2));
-                _thread.Name = "Calculate rectangles of differences";
+                     unused => CalculateRectanglesOfDifferences(bitmap1, bitmap2))
+                {
+                    Name = "Calculate rectangles of differences"
+                };
                 _thread.Start();
             }
             else
@@ -284,9 +286,9 @@ namespace AntiDupl.NET
             if ((bitmap1 == null) || (bitmap2 == null))
                 return;
 
-            List<RectanglesWithSimilarity> rectangles = new List<RectanglesWithSimilarity>();
+            var rectangles = new List<RectanglesWithSimilarity>();
             float similarity;
-            for (int i = 0; i < bitmap1.Length; i++)
+            for (var i = 0; i < bitmap1.Length; i++)
             {
                 if (_highlightStop)
                     return;
@@ -309,7 +311,7 @@ namespace AntiDupl.NET
                         return a.similarity.CompareTo(b.similarity);
                     });
                     RectanglesWithSimilarity[] src = rectangles.ToArray();
-                    List<Rectangle> dst = new List<Rectangle>();
+                    var dst = new List<Rectangle>();
                     for (int i = 0, n = Math.Min(src.Length, m_options.resultsOptions.MaxFragmentsForHighlight); i < n; ++i)
                         dst.Add(src[i].rectangle);
                     HighlightCompleteEvent(dst);
@@ -319,8 +321,8 @@ namespace AntiDupl.NET
             if (HighlightCompleteEvent != null)
             {
                 RectanglesWithSimilarity[] src = rectangles.ToArray();
-                List<Rectangle> dst = new List<Rectangle>();
-                for (int i = 0; i < src.Length; ++i)
+                var dst = new List<Rectangle>();
+                for (var i = 0; i < src.Length; ++i)
                     dst.Add(src[i].rectangle);
                 HighlightCompleteEvent(dst);
             }

@@ -22,7 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
@@ -57,12 +56,12 @@ namespace AntiDupl.NET
         }
         private Type m_type;
         
-        private CoreDll.LocalActionType m_action;
-        private CoreDll.TargetType m_target;
+        private readonly CoreDll.LocalActionType m_action;
+        private readonly CoreDll.TargetType m_target;
 
-        private CoreDll.RenameCurrentType m_renameCurrentType;
-        private string m_newFileName;
-        private string m_directoryForMove;
+        private readonly CoreDll.RenameCurrentType m_renameCurrentType;
+        private readonly string m_newFileName;
+        private readonly string m_directoryForMove;
 
         private enum State
         {
@@ -160,7 +159,7 @@ namespace AntiDupl.NET
             m_cancelButton.AutoSize = true;
             buttonsTableLayoutPanel.Controls.Add(m_cancelButton, 1, 0);
 
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             StartPosition = FormStartPosition.CenterScreen;
             ShowInTaskbar = false;
             ControlBox = false;
@@ -168,15 +167,17 @@ namespace AntiDupl.NET
             MinimizeBox = false;
             KeyPreview = true;
             {
-                int width = 800;
-                int height = (m_progressPanel.Height + mainTableLayoutPanel.Margin.Vertical) +
+                var width = 800;
+                var height = (m_progressPanel.Height + mainTableLayoutPanel.Margin.Vertical) +
                   m_cancelButton.Height + m_cancelButton.Padding.Vertical + mainTableLayoutPanel.Margin.Vertical +
                   mainTableLayoutPanel.Padding.Vertical;
                 ClientSize = new System.Drawing.Size(width, height);
             }
 
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Interval = 100;
+            m_timer = new System.Windows.Forms.Timer
+            {
+                Interval = 100
+            };
             m_timer.Tick += new EventHandler(TimerCallback);
             m_timer.Start();
 
@@ -190,7 +191,7 @@ namespace AntiDupl.NET
         public void Execute()
         {
             m_state = State.Start;
-            Thread coreThread = new Thread(CoreThreadTask);
+            var coreThread = new Thread(CoreThreadTask);
             coreThread.Start();
             if (m_type >= Type.ApplyAction && m_type <= Type.RefreshResults)
             {
@@ -307,7 +308,7 @@ namespace AntiDupl.NET
             }
         }
 
-        private void OnCancelButtonClick(Object obj, EventArgs eventArgs)
+        private void OnCancelButtonClick(object obj, EventArgs eventArgs)
         {
             if (m_state == State.Work)
             {
@@ -324,7 +325,7 @@ namespace AntiDupl.NET
             m_cancelButton.Text = s.CancelButton_Text;
         }
 
-        void TimerCallback(Object obj, EventArgs eventArgs)
+        void TimerCallback(object obj, EventArgs eventArgs)
         {
             if (m_state == State.Finish)
             {
@@ -332,7 +333,7 @@ namespace AntiDupl.NET
             }
             else
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 Strings s = Resources.Strings.Current;
                 switch (m_state)
                 {
@@ -418,7 +419,7 @@ namespace AntiDupl.NET
                             CoreStatus status = m_core.StatusGet(CoreDll.ThreadType.Main, 0);
                             if (status != null)
                             {
-                                double progress = status.total > 0 ? ((double)status.current) / status.total : 0;
+                                var progress = status.total > 0 ? ((double)status.current) / status.total : 0;
                                 builder.AppendFormat(" ({0})...", ProgressUtils.GetProgressString(progress, m_startDateTime));
                                 m_progressPanel.UpdateStatus(status.total, status.current, status.current, status.path);
                             }

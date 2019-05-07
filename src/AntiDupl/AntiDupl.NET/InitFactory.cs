@@ -22,10 +22,7 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace AntiDupl.NET
 {
@@ -38,11 +35,13 @@ namespace AntiDupl.NET
         {
             public static TableLayoutPanel Create(int columCount, int rowCount)
             {
-                TableLayoutPanel layout = new TableLayoutPanel();
-                layout.Location = new System.Drawing.Point(0, 0);
-                layout.Dock = DockStyle.Fill;
-                layout.ColumnCount = columCount;
-                layout.RowCount = rowCount;
+                var layout = new TableLayoutPanel
+                {
+                    Location = new System.Drawing.Point(0, 0),
+                    Dock = DockStyle.Fill,
+                    ColumnCount = columCount,
+                    RowCount = rowCount
+                };
                 return layout;
             }
 
@@ -105,7 +104,7 @@ namespace AntiDupl.NET
         {
             public static System.Drawing.Font Create(float size)
             {
-                System.Drawing.Font font = new System.Drawing.Font("Microsoft Sans Serif", size,
+                var font = new System.Drawing.Font("Microsoft Sans Serif", size,
                   System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
                 return font;
             }
@@ -115,8 +114,10 @@ namespace AntiDupl.NET
         {
             public static System.Windows.Forms.Label Create()
             {
-                System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-                label.AutoSize = true;
+                var label = new System.Windows.Forms.Label
+                {
+                    AutoSize = true
+                };
                 return label;
             }
 
@@ -129,10 +130,12 @@ namespace AntiDupl.NET
 
             public static System.Windows.Forms.Label Create(string text, System.Drawing.Font font)
             {
-                System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-                label.AutoSize = true;
-                label.Font = font;
-                label.Text = text;
+                var label = new System.Windows.Forms.Label
+                {
+                    AutoSize = true,
+                    Font = font,
+                    Text = text
+                };
                 return label;
             }
         };
@@ -141,7 +144,7 @@ namespace AntiDupl.NET
         {
             public static System.Windows.Forms.CheckBox Create(EventHandler checkedChanged)
             {
-                System.Windows.Forms.CheckBox checkBox = new System.Windows.Forms.CheckBox();
+                var checkBox = new System.Windows.Forms.CheckBox();
                 checkBox.CheckedChanged += new EventHandler(checkedChanged);
                 checkBox.AutoSize = true;
                 return checkBox;
@@ -152,9 +155,11 @@ namespace AntiDupl.NET
         {
             public static System.Windows.Forms.ListBox Create(EventHandler selectedIndexChanged, EventHandler doubleClick)
             {
-                System.Windows.Forms.ListBox listBox = new System.Windows.Forms.ListBox();
-                listBox.Location = new System.Drawing.Point(0, 0);
-                listBox.Dock = DockStyle.Fill;
+                var listBox = new System.Windows.Forms.ListBox
+                {
+                    Location = new System.Drawing.Point(0, 0),
+                    Dock = DockStyle.Fill
+                };
                 listBox.SelectedIndexChanged += new EventHandler(selectedIndexChanged);
                 listBox.DoubleClick += new EventHandler(doubleClick);
                 return listBox;
@@ -165,9 +170,11 @@ namespace AntiDupl.NET
         {
             public static System.Windows.Forms.CheckedListBox Create(EventHandler selectedIndexChanged, EventHandler doubleClick, ItemCheckEventHandler itemCheck)
             {
-                System.Windows.Forms.CheckedListBox checkBox = new System.Windows.Forms.CheckedListBox();
-                checkBox.Location = new System.Drawing.Point(0, 0);
-                checkBox.Dock = DockStyle.Fill;
+                var checkBox = new System.Windows.Forms.CheckedListBox
+                {
+                    Location = new System.Drawing.Point(0, 0),
+                    Dock = DockStyle.Fill
+                };
                 checkBox.SelectedIndexChanged += new EventHandler(selectedIndexChanged);
                 checkBox.DoubleClick += new EventHandler(doubleClick);
                 checkBox.ItemCheck += new ItemCheckEventHandler(itemCheck);
@@ -177,9 +184,9 @@ namespace AntiDupl.NET
 
         public static class MenuItem
         {
-            public static System.Windows.Forms.ToolStripMenuItem Create(string image, object tag, EventHandler handler)
+            public static ToolStripMenuItem Create(string image, object tag, EventHandler handler)
             {
-                System.Windows.Forms.ToolStripMenuItem menuItem = new System.Windows.Forms.ToolStripMenuItem();
+                var menuItem = new ToolStripMenuItem();
                 if (image != null)
                 {
                     menuItem.Image = Resources.Images.Get(image);
@@ -190,9 +197,9 @@ namespace AntiDupl.NET
                 return menuItem;
             }
 
-            public static System.Windows.Forms.ToolStripMenuItem Create(string image, object tag, EventHandler handler, bool checkedValue)
+            public static ToolStripMenuItem Create(string image, object tag, EventHandler handler, bool checkedValue)
             {
-                System.Windows.Forms.ToolStripMenuItem menuItem = Create(image, tag, handler);
+                ToolStripMenuItem menuItem = Create(image, tag, handler);
                 menuItem.CheckOnClick = true;
                 menuItem.Checked = checkedValue;
                 return menuItem;
@@ -201,9 +208,9 @@ namespace AntiDupl.NET
 
         public static class ToolButton
         {
-            public static System.Windows.Forms.ToolStripButton Create(string image, object tag, EventHandler handler)
+            public static ToolStripButton Create(string image, object tag, EventHandler handler)
             {
-                System.Windows.Forms.ToolStripButton toolButton = new System.Windows.Forms.ToolStripButton();
+                var toolButton = new ToolStripButton();
                 if (image != null)
                 {
                     toolButton.Image = Resources.Images.Get(image);

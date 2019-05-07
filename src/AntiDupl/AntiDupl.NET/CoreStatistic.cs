@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AntiDupl.NET
 {
@@ -39,7 +37,7 @@ namespace AntiDupl.NET
         public uint duplImagePairNumber;
         public uint renamedImageNumber;
         public uint deletedImageNumber;
-        public UInt64 deletedImageSize;
+        public ulong deletedImageSize;
         
         public CoreStatistic(ref CoreDll.adStatistic statistic)
         {

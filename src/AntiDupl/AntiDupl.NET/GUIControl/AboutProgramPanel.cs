@@ -21,9 +21,6 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -83,14 +80,16 @@ namespace AntiDupl.NET
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layout.AutoSize = true;
 
-            Bitmap bitmap = Resources.Icons.Get(new Size(LOGO_SIZE, LOGO_SIZE)).ToBitmap();
-            PictureBox pictureBox = new PictureBox();
-            pictureBox.Location = new System.Drawing.Point(0, 0);
-            pictureBox.Dock = DockStyle.Fill;
-            pictureBox.Padding = new Padding(0);
-            pictureBox.Margin = new Padding(0);
-            pictureBox.ClientSize = bitmap.Size;
-            pictureBox.Image = bitmap;
+            var bitmap = Resources.Icons.Get(new Size(LOGO_SIZE, LOGO_SIZE)).ToBitmap();
+            var pictureBox = new PictureBox
+            {
+                Location = new Point(0, 0),
+                Dock = DockStyle.Fill,
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+                ClientSize = bitmap.Size,
+                Image = bitmap
+            };
             layout.Controls.Add(pictureBox, 1, 0);
 
             layout.Controls.Add(CreateLinkLabel(Application.ProductName, Resources.WebLinks.GithubComAntidupl, font), 2, 0);
@@ -126,31 +125,37 @@ namespace AntiDupl.NET
 
         private Label CreateLabel(string text, Font font)
         {
-            System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-            label.AutoSize = true;
-            label.Padding = new System.Windows.Forms.Padding(2);
-            label.Font = font;
-            label.Text = text;
-            label.Dock = DockStyle.Fill;
-            label.TextAlign = ContentAlignment.MiddleCenter;
+            var label = new Label
+            {
+                AutoSize = true,
+                Padding = new Padding(2),
+                Font = font,
+                Text = text,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
             return label;
         }
 
         private LinkLabel CreateLinkLabel(string text, string link, Font font)
         {
-            LinkLabel linkLabel = new LinkLabel();
-            linkLabel.AutoSize = true;
-            linkLabel.Font = font;
-            linkLabel.Text = text;
-            linkLabel.Dock = DockStyle.Fill;
-            linkLabel.LinkBehavior = LinkBehavior.HoverUnderline;
-            linkLabel.Padding = new System.Windows.Forms.Padding(2);
+            var linkLabel = new LinkLabel
+            {
+                AutoSize = true,
+                Font = font,
+                Text = text,
+                Dock = DockStyle.Fill,
+                LinkBehavior = LinkBehavior.HoverUnderline,
+                Padding = new Padding(2)
+            };
             linkLabel.Links.Add(new LinkLabel.Link(0, text.Length, link));
             linkLabel.LinkClicked += new LinkLabelLinkClickedEventHandler(OnLinkLabelLinkClicked);
             linkLabel.TextAlign = ContentAlignment.MiddleCenter;
 
-            ToolTip toolTip = new ToolTip();
-            toolTip.ShowAlways = true;
+            var toolTip = new ToolTip
+            {
+                ShowAlways = true
+            };
             toolTip.SetToolTip(linkLabel, link);
 
             return linkLabel;
@@ -158,8 +163,8 @@ namespace AntiDupl.NET
 
         private void OnLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            LinkLabel linkLabel = (LinkLabel)sender;
-            int linkIndex = linkLabel.Links.IndexOf(e.Link);
+            var linkLabel = (LinkLabel)sender;
+            var linkIndex = linkLabel.Links.IndexOf(e.Link);
             LinkLabel.Link link = linkLabel.Links[linkIndex];
             link.Visited = true;
             System.Diagnostics.Process.Start(link.LinkData.ToString());

@@ -22,12 +22,10 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections; 
-using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Diagnostics;
@@ -44,7 +42,7 @@ namespace AntiDupl.NET
 
         static private string CreateIfNotExists(string path)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+            var directoryInfo = new DirectoryInfo(path);
             if (!directoryInfo.Exists)
                 directoryInfo.Create();
             return path;
@@ -54,9 +52,7 @@ namespace AntiDupl.NET
         {
             return CreateIfNotExists(string.Format("{0}\\user", Application.StartupPath));
         }
-
-        static private string m_userPath = null;
-        static public string UserPath { get { return m_userPath; } set { m_userPath = value; } }
+        static public string UserPath { get; set; } = null;
 
         static public string ProfilesPath { get { return CreateIfNotExists(string.Format("{0}\\profiles", UserPath)); } }
 
@@ -68,20 +64,20 @@ namespace AntiDupl.NET
         {
             static public Image GetNullImage()
             {
-                Bitmap bitmap = new Bitmap(1, 1);
+                var bitmap = new Bitmap(1, 1);
                 bitmap.SetPixel(0, 0, Color.FromArgb(0, 0, 0, 0));
                 return bitmap;
             }
 
             static public Image GetImageWithBlackCircle(int width, int height, double radius)
             {
-                Bitmap bitmap = new Bitmap(width, height);
-                for (int x = 0; x < width; x++)
+                var bitmap = new Bitmap(width, height);
+                for (var x = 0; x < width; x++)
                 {
-                    int xx = x - width / 2;
-                    for (int y = 0; y < height; y++)
+                    var xx = x - width / 2;
+                    for (var y = 0; y < height; y++)
                     {
-                        int yy = y - height / 2;
+                        var yy = y - height / 2;
                         if (xx * xx + yy * yy < radius * radius)
                             bitmap.SetPixel(x, y, Color.FromArgb(0xFF, 0, 0, 0));
                         else
@@ -158,16 +154,16 @@ namespace AntiDupl.NET
                 m_strings.Add(StringsDefaultEnglish.Get());
                 m_strings.Add(StringsDefaultRussian.Get());
 
-                DirectoryInfo directoryInfo = new DirectoryInfo(Path);
+                var directoryInfo = new DirectoryInfo(Path);
                 if (directoryInfo.Exists)
                 {
                     FileInfo[] fileInfos = directoryInfo.GetFiles(Filter, SearchOption.TopDirectoryOnly);
-                    for (int i = 0; i < fileInfos.Length; i++)
+                    for (var i = 0; i < fileInfos.Length; i++)
                     {
-                        AntiDupl.NET.Strings strings = Load(fileInfos[i].FullName);
+                        NET.Strings strings = Load(fileInfos[i].FullName);
                         if(strings != null)
                         {
-                            string name = System.IO.Path.GetFileNameWithoutExtension(fileInfos[i].FullName);
+                            var name = System.IO.Path.GetFileNameWithoutExtension(fileInfos[i].FullName);
                             if (name.CompareTo(StringsDefaultRussian.Get().Name) != 0 &&
                                 name.CompareTo(StringsDefaultEnglish.Get().Name) != 0)
                             {
@@ -189,16 +185,16 @@ namespace AntiDupl.NET
                 }
             }
             
-            static private AntiDupl.NET.Strings Load(string path)
+            static private NET.Strings Load(string path)
             {
-                FileInfo fileInfo = new FileInfo(path);
+                var fileInfo = new FileInfo(path);
                 if (fileInfo.Exists)
                 {
                     try
                     {
-                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(AntiDupl.NET.Strings));
-                        FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-                        AntiDupl.NET.Strings strings = (AntiDupl.NET.Strings)xmlSerializer.Deserialize(fileStream);
+                        var xmlSerializer = new XmlSerializer(typeof(NET.Strings));
+                        var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+                        var strings = (NET.Strings)xmlSerializer.Deserialize(fileStream);
                         fileStream.Close();
                         return strings;
                     }
@@ -211,13 +207,13 @@ namespace AntiDupl.NET
                     return null;
             }
 
-            static private void Save(AntiDupl.NET.Strings strings)
+            static private void Save(NET.Strings strings)
             {
                 try
                 {
 
                     TextWriter writer = new StreamWriter(GetPath(Path, strings.Name, Extension));
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(AntiDupl.NET.Strings));
+                    var xmlSerializer = new XmlSerializer(typeof(NET.Strings));
                     xmlSerializer.Serialize(writer, strings);
                     writer.Close();
                 }
@@ -239,41 +235,34 @@ namespace AntiDupl.NET
                     return m_strings.Count;
                 }
             }
-            
-            public static int CurrentIndex
-            {
-                get
-                {
-                    return m_currentIndex;
-                }
-            }
-            
-            public static AntiDupl.NET.Strings Current
+
+            public static int CurrentIndex { get; private set; } = 0;
+
+            public static NET.Strings Current
             {
                 get 
                 {
-                    if (m_currentIndex < Count && m_currentIndex >= 0)
-                        return (AntiDupl.NET.Strings)m_strings[m_currentIndex];
+                    if (CurrentIndex < Count && CurrentIndex >= 0)
+                        return (NET.Strings)m_strings[CurrentIndex];
                     else
                         return null; 
                 }
             }
             
-            public static AntiDupl.NET.Strings Get(int index)
+            public static NET.Strings Get(int index)
             {
                 if (index < Count && index >= 0)
-                    return (AntiDupl.NET.Strings)m_strings[index];
+                    return (NET.Strings)m_strings[index];
                 else
                     return null;
             }
 
             public static bool SetCurrent(int index)
             {
-                if (index != m_currentIndex && index < Count && index >= 0)
+                if (index != CurrentIndex && index < Count && index >= 0)
                 {
-                    m_currentIndex = index;
-                    if (OnCurrentChange != null)
-                        OnCurrentChange();
+                    CurrentIndex = index;
+                    OnCurrentChange?.Invoke();
                     return true;
                 }
                 else
@@ -282,14 +271,14 @@ namespace AntiDupl.NET
             
             public static bool SetCurrent(string name)
             {
-                for(int i = 0; i < Count; i++)
+                for(var i = 0; i < Count; i++)
                 {
                     if(Get(i).Name.CompareTo(name) == 0)
                     {
                         return SetCurrent(i);
                     }
                 }
-                for(int i = 0; i < Count; i++)
+                for(var i = 0; i < Count; i++)
                 {
                     if(Get(i).Name.CompareTo(StringsDefaultEnglish.Get().Name) == 0)
                     {
@@ -317,12 +306,10 @@ namespace AntiDupl.NET
             }
             
             private static ArrayList m_strings = new ArrayList();
-            private static int m_currentIndex = 0;
 
             public static void Update()
             {
-                if (OnCurrentChange != null)
-                    OnCurrentChange();
+                OnCurrentChange?.Invoke();
             }
         }
 
@@ -353,7 +340,7 @@ namespace AntiDupl.NET
         {        
             static private string GetUrl(string page)
             {
-                StringBuilder builder = new StringBuilder(WebLinks.GithubComAntidupl);
+                var builder = new StringBuilder(WebLinks.GithubComAntidupl);
                 builder.Append("/data/help");
                 if (Strings.IsCurrentRussianFamily())
                     builder.Append("/russian");
@@ -370,7 +357,7 @@ namespace AntiDupl.NET
 
             private class Starter
             {
-                private string m_url;
+                private readonly string m_url;
 
                 public Starter(Form form, string url)
                 {
@@ -379,9 +366,9 @@ namespace AntiDupl.NET
                     form.HelpButtonClicked += new CancelEventHandler(OnHelpButtonClicked);
                 }
 
-                private void OnHelpButtonClicked(Object sender, CancelEventArgs e)
+                private void OnHelpButtonClicked(object sender, CancelEventArgs e)
                 {
-                    Help.Show(m_url);
+                    Show(m_url);
                 }
             }
 
@@ -391,11 +378,11 @@ namespace AntiDupl.NET
                 {
                     if (url.Substring(0, 4).ToUpper() != "HTTP")
                     {
-                        string keyName = @"HTTP\shell\open\command";
+                        var keyName = @"HTTP\shell\open\command";
                         Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(keyName, false);
                         if (registryKey != null)
                         {
-                            string defaultBrouserPath = ((string)registryKey.GetValue(null, null)).Split('"')[1];
+                            var defaultBrouserPath = ((string)registryKey.GetValue(null, null)).Split('"')[1];
                             Process.Start(defaultBrouserPath, url);
                         }
                     }

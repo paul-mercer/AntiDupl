@@ -21,9 +21,6 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -52,13 +49,17 @@ namespace AntiDupl.NET
             Dock = DockStyle.Fill;
 
             m_mainSplitContainer = mainSplitContainer;
-            m_resultsPreviewDefect = new ResultsPreviewDefect(core, options, coreOptions, m_mainSplitContainer.resultsListView);
-            m_resultsPreviewDefect.Location = new System.Drawing.Point(0, 0);
-            m_resultsPreviewDefect.Dock = DockStyle.Fill;
+            m_resultsPreviewDefect = new ResultsPreviewDefect(core, options, coreOptions, m_mainSplitContainer.resultsListView)
+            {
+                Location = new Point(0, 0),
+                Dock = DockStyle.Fill
+            };
 
-            m_resultsPreviewDuplPair = new ResultsPreviewDuplPair(core, options, coreOptions, m_mainSplitContainer.resultsListView);
-            m_resultsPreviewDuplPair.Location = new System.Drawing.Point(0, 0);
-            m_resultsPreviewDuplPair.Dock = DockStyle.Fill;
+            m_resultsPreviewDuplPair = new ResultsPreviewDuplPair(core, options, coreOptions, m_mainSplitContainer.resultsListView)
+            {
+                Location = new Point(0, 0),
+                Dock = DockStyle.Fill
+            };
 
             m_mainSplitContainer.OnCurrentResultChanged += 
                 new MainSplitContainer.CurrentResultChangedHandler(CurrentResultChanged);

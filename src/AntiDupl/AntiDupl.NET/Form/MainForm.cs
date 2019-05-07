@@ -22,15 +22,8 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Threading;
-using System.Xml;
-using System.Xml.Serialization;
 using System.IO;
 
 namespace AntiDupl.NET
@@ -62,7 +55,7 @@ namespace AntiDupl.NET
             }
             Resources.Strings.SetCurrent(m_options.Language);
 
-            StartFinishForm startFinishForm = new StartFinishForm(m_core, m_options);
+            var startFinishForm = new StartFinishForm(m_core, m_options);
             startFinishForm.ExecuteStart();
 
             InitializeComponents();
@@ -70,9 +63,11 @@ namespace AntiDupl.NET
 
         private void InitializeComponents()
         {
-            m_mainSplitContainer = new MainSplitContainer(m_core, m_options, m_coreOptions, this);
-            m_mainSplitContainer.Dock = DockStyle.Fill;
-            m_mainSplitContainer.Location = new System.Drawing.Point(0, 0);
+            m_mainSplitContainer = new MainSplitContainer(m_core, m_options, m_coreOptions, this)
+            {
+                Dock = DockStyle.Fill,
+                Location = new Point(0, 0)
+            };
 
             m_mainMenu = new MainMenu(m_core, m_options, m_coreOptions, this, m_mainSplitContainer);
 
@@ -104,7 +99,7 @@ namespace AntiDupl.NET
             GetSavedViewOptions();
             m_options.Save();
 
-            StartFinishForm startFinishForm = new StartFinishForm(m_core, m_options);
+            var startFinishForm = new StartFinishForm(m_core, m_options);
             startFinishForm.ExecuteFinish();
             m_core.Dispose();
         }
@@ -114,7 +109,7 @@ namespace AntiDupl.NET
             Point loc = m_options.mainFormOptions.location;
             Size size = m_options.mainFormOptions.size;
 
-            Size sizeMin = new Size(MIN_WIDTH, MIN_HEIGHT);
+            var sizeMin = new Size(MIN_WIDTH, MIN_HEIGHT);
             Size sizeMax = Screen.PrimaryScreen.WorkingArea.Size;
 
             Point locMin = Screen.PrimaryScreen.WorkingArea.Location;

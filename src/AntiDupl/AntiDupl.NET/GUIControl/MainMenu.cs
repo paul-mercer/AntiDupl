@@ -22,12 +22,9 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
-using System.Diagnostics;
 
 namespace AntiDupl.NET
 {
@@ -218,7 +215,7 @@ namespace AntiDupl.NET
             m_view_proportionalImageViewMenuItem.Text = s.MainMenu_View_ProportionalImageSizeMenuItem_Text;
             if (m_options.hotKeyOptions.keys.Length > (int)HotKeyOptions.Action.ShowNeighbours &&
                 m_options.hotKeyOptions.keys[(int)HotKeyOptions.Action.ShowNeighbours] != null)
-                    m_view_showNeighbourImageMenuItem.Text = s.MainMenu_View_ShowNeighbourImageMenuItem_Text + String.Format(" ({0})", m_options.hotKeyOptions.keys[(int)HotKeyOptions.Action.ShowNeighbours].ToString().Replace(',', '+'));
+                    m_view_showNeighbourImageMenuItem.Text = s.MainMenu_View_ShowNeighbourImageMenuItem_Text + string.Format(" ({0})", m_options.hotKeyOptions.keys[(int)HotKeyOptions.Action.ShowNeighbours].ToString().Replace(',', '+'));
             else
                 m_view_showNeighbourImageMenuItem.Text = s.MainMenu_View_ShowNeighbourImageMenuItem_Text;
 
@@ -241,7 +238,7 @@ namespace AntiDupl.NET
 
         private void ViewItemCheckChangeAction(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            var item = (ToolStripMenuItem)sender;
             if (item == m_view_toolMenuItem)
             {
                 m_options.mainFormOptions.toolStripView = item.Checked;
@@ -269,13 +266,13 @@ namespace AntiDupl.NET
         {
             if(m_options.resultsOptions.viewMode == ResultsOptions.ViewMode.VerticalPairTable)
             {
-                SelectVerticalColumnsForm form =
+                var form =
                     new SelectVerticalColumnsForm(m_mainSplitContainer.resultsListView, m_options);
                 form.ShowDialog();
             }
             if (m_options.resultsOptions.viewMode == ResultsOptions.ViewMode.HorizontalPairTable)
             {
-                SelectHorizontalColumnsForm form =
+                var form =
                     new SelectHorizontalColumnsForm(m_mainSplitContainer.resultsListView, m_options);
                 form.ShowDialog();
             }
@@ -283,37 +280,37 @@ namespace AntiDupl.NET
 
         private void OnHotKeysClick(object sender, EventArgs e)
         {
-            SelectHotKeysForm form = new SelectHotKeysForm(m_options);
+            var form = new SelectHotKeysForm(m_options);
             form.ShowDialog();
         }
 
         public void StartSearchAction(object sender, EventArgs e)
         {
-            SearchExecuterForm searchExecuterForm = new SearchExecuterForm(m_core, m_options, m_coreOptions, m_mainSplitContainer, m_mainForm);
+            var searchExecuterForm = new SearchExecuterForm(m_core, m_options, m_coreOptions, m_mainSplitContainer, m_mainForm);
             searchExecuterForm.Execute();
         }
 
         public void RefreshResultsAction(object sender, EventArgs e)
         {
-            ProgressForm progressForm = new ProgressForm(ProgressForm.Type.RefreshResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
+            var progressForm = new ProgressForm(ProgressForm.Type.RefreshResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
             progressForm.Execute();
         }
 
         private void RefreshImagesAction(object sender, EventArgs e)
         {
-            ProgressForm progressForm = new ProgressForm(ProgressForm.Type.ClearDatabase, m_core, m_options, m_coreOptions, m_mainSplitContainer);
+            var progressForm = new ProgressForm(ProgressForm.Type.ClearDatabase, m_core, m_options, m_coreOptions, m_mainSplitContainer);
             progressForm.Execute();
         }
 
         public void UndoAction(object sender, EventArgs e)
         {
-            ProgressForm progressForm = new ProgressForm(ProgressForm.Type.Undo, m_core, m_options, m_coreOptions, m_mainSplitContainer);
+            var progressForm = new ProgressForm(ProgressForm.Type.Undo, m_core, m_options, m_coreOptions, m_mainSplitContainer);
             progressForm.Execute();
         }
 
         public void RedoAction(object sender, EventArgs e)
         {
-            ProgressForm progressForm = new ProgressForm(ProgressForm.Type.Redo, m_core, m_options, m_coreOptions, m_mainSplitContainer);
+            var progressForm = new ProgressForm(ProgressForm.Type.Redo, m_core, m_options, m_coreOptions, m_mainSplitContainer);
             progressForm.Execute();
         }
 
@@ -325,8 +322,8 @@ namespace AntiDupl.NET
         
         public void ProfileSaveAsAction(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            FileInfo fileInfo = new FileInfo(m_options.coreOptionsFileName);
+            var dialog = new SaveFileDialog();
+            var fileInfo = new FileInfo(m_options.coreOptionsFileName);
             if (fileInfo.Exists)
             {
                 dialog.FileName = m_options.coreOptionsFileName;
@@ -348,7 +345,7 @@ namespace AntiDupl.NET
                 }*/
                 m_options.coreOptionsFileName = dialog.FileName;
                 m_coreOptions.Save(m_options.coreOptionsFileName);
-                ProgressForm progressForm = new ProgressForm(ProgressForm.Type.SaveResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
+                var progressForm = new ProgressForm(ProgressForm.Type.SaveResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
                 progressForm.Execute();
                 m_mainForm.UpdateCaption();
             }
@@ -356,8 +353,8 @@ namespace AntiDupl.NET
 
         public void ProfileOpenAction(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            FileInfo fileInfo = new FileInfo(m_options.coreOptionsFileName);
+            var dialog = new OpenFileDialog();
+            var fileInfo = new FileInfo(m_options.coreOptionsFileName);
             if (fileInfo.Exists)
             {
                 dialog.FileName = m_options.coreOptionsFileName;
@@ -372,14 +369,14 @@ namespace AntiDupl.NET
                 if (string.Compare(dialog.FileName, m_options.coreOptionsFileName) != 0)
                 {
                     m_coreOptions.Save(m_options.coreOptionsFileName);
-                    ProgressForm saveProgressForm = new ProgressForm(ProgressForm.Type.SaveResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
+                    var saveProgressForm = new ProgressForm(ProgressForm.Type.SaveResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
                     saveProgressForm.Execute();
                     m_options.coreOptionsFileName = dialog.FileName;
                 }
 
-                CoreOptions coreOptions = CoreOptions.Load(m_options.coreOptionsFileName, m_core, m_options.onePath);
+                var coreOptions = CoreOptions.Load(m_options.coreOptionsFileName, m_core, m_options.onePath);
                 coreOptions.CopyTo(ref m_coreOptions);
-                ProgressForm loadProgressForm = new ProgressForm(ProgressForm.Type.LoadResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
+                var loadProgressForm = new ProgressForm(ProgressForm.Type.LoadResults, m_core, m_options, m_coreOptions, m_mainSplitContainer);
                 loadProgressForm.Execute();
 
                 m_mainForm.UpdateCaption();
@@ -396,8 +393,10 @@ namespace AntiDupl.NET
         {
             if (m_options.onePath)
             {
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.ShowNewFolderButton = false;
+                var dialog = new FolderBrowserDialog
+                {
+                    ShowNewFolderButton = false
+                };
                 if (Directory.Exists(m_coreOptions.searchPath[0].path))
                     dialog.SelectedPath = m_coreOptions.searchPath[0].path;
                 else
@@ -407,14 +406,14 @@ namespace AntiDupl.NET
             }
             else
             {
-                CorePathsForm form = new CorePathsForm(m_core, m_options, m_coreOptions);
+                var form = new CorePathsForm(m_core, m_options, m_coreOptions);
                 form.ShowDialog();
             }
         }
 
         public void OptionsAction(object sender, EventArgs e)
         {
-            CoreOptionsForm form = new CoreOptionsForm(m_core, m_options, m_coreOptions);
+            var form = new CoreOptionsForm(m_core, m_options, m_coreOptions);
             form.ShowDialog();
         }
 
@@ -455,7 +454,7 @@ namespace AntiDupl.NET
 
         private void AboutProgramAction(object sender, EventArgs e)
         {
-            AboutProgramForm aboutProgramForm = new AboutProgramForm(m_core);
+            var aboutProgramForm = new AboutProgramForm(m_core);
             aboutProgramForm.ShowDialog();
         }
 
@@ -470,7 +469,7 @@ namespace AntiDupl.NET
 
         private void UpdateResults()
         {
-            bool hasResults = m_core.GetResultSize() > 0;
+            var hasResults = m_core.GetResultSize() > 0;
 
             m_edit_undoMenuItem.Enabled = m_core.CanApply(CoreDll.ActionEnableType.Undo);
             m_edit_redoMenuItem.Enabled = m_core.CanApply(CoreDll.ActionEnableType.Redo);

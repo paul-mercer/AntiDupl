@@ -22,10 +22,7 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
 using System.ComponentModel;
 
 namespace AntiDupl.NET
@@ -151,8 +148,8 @@ namespace AntiDupl.NET
 
         private void MakeAction(object sender, EventArgs e)
         {
-            ToolStripItem item = (ToolStripItem)sender;
-            CoreDll.LocalActionType action = (CoreDll.LocalActionType)item.Tag;
+            var item = (ToolStripItem)sender;
+            var action = (CoreDll.LocalActionType)item.Tag;
             m_mainSplitContainer.resultsListView.MakeAction(action, CoreDll.TargetType.Selected);
         }
 

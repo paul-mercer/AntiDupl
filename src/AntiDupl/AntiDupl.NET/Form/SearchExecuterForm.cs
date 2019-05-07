@@ -22,9 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -111,12 +108,14 @@ namespace AntiDupl.NET
             m_minimizeToSystrayButton.AutoSize = true;
             buttonsTableLayoutPanel.Controls.Add(m_minimizeToSystrayButton, 3, 0);
 
-            m_notifyIcon = new NotifyIcon();
-            m_notifyIcon.Icon = Resources.Icons.Get();
-            m_notifyIcon.Text = Application.ProductName;
+            m_notifyIcon = new NotifyIcon
+            {
+                Icon = Resources.Icons.Get(),
+                Text = Application.ProductName
+            };
             m_notifyIcon.DoubleClick += new EventHandler(OnNotifyIconDoubleClick);
 
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             StartPosition = FormStartPosition.CenterScreen;
             ShowInTaskbar = false;
             ControlBox = false;
@@ -124,15 +123,17 @@ namespace AntiDupl.NET
             MinimizeBox = false;
             KeyPreview = true;
             {
-                int width = 800;
-                int height = (m_progressPanel.Height + mainTableLayoutPanel.Margin.Vertical) +
+                var width = 800;
+                var height = (m_progressPanel.Height + mainTableLayoutPanel.Margin.Vertical) +
                   m_stopButton.Height + m_stopButton.Padding.Vertical + mainTableLayoutPanel.Margin.Vertical +
                   mainTableLayoutPanel.Padding.Vertical;
                 ClientSize = new Size(width, height);
             }
 
-            m_timer = new System.Windows.Forms.Timer();
-            m_timer.Interval = 100;
+            m_timer = new System.Windows.Forms.Timer
+            {
+                Interval = 100
+            };
             m_timer.Tick += new EventHandler(TimerCallback);
             m_timer.Start();
 
@@ -172,13 +173,13 @@ namespace AntiDupl.NET
         {
             m_mainSplitContainer.ClearResults();
             m_state = State.Start;
-            Thread searchThread = new Thread(CoreThreadTask);
+            var searchThread = new Thread(CoreThreadTask);
             searchThread.Start();
             m_stopButton.Enabled = true;
             ShowDialog();
         }
 
-        void TimerCallback(Object obj, EventArgs eventArgs)
+        void TimerCallback(object obj, EventArgs eventArgs)
         {
             if (m_state == State.Finish)
             {
@@ -194,7 +195,7 @@ namespace AntiDupl.NET
             }
             else
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 if (m_notifyIcon.Visible || WindowState == FormWindowState.Minimized)
                 {
                     builder.Append(Application.ProductName);
@@ -225,7 +226,7 @@ namespace AntiDupl.NET
                         {
                             m_stopButton.Enabled = true;
                             builder.Append(s.SearchExecuterForm_Search);
-                            double progress = EstimateSearchProgress();
+                            var progress = EstimateSearchProgress();
                             builder.AppendFormat(" ({0})...", ProgressUtils.GetProgressString(progress, m_startDateTime));
                         }
                         break;
@@ -269,7 +270,7 @@ namespace AntiDupl.NET
             }
         }
 
-        private void OnStopButtonClick(Object obj, EventArgs eventArgs)
+        private void OnStopButtonClick(object obj, EventArgs eventArgs)
         {
             if(m_state == State.Search)
             {
@@ -279,14 +280,14 @@ namespace AntiDupl.NET
             }
         }
 
-        private void OnMinimizeToTaskbarButtonClick(Object obj, EventArgs eventArgs)
+        private void OnMinimizeToTaskbarButtonClick(object obj, EventArgs eventArgs)
         {
             m_mainFormWindowState = m_mainForm.WindowState;
             WindowState = FormWindowState.Minimized;
             m_mainForm.WindowState = FormWindowState.Minimized;
         }
 
-        private void OnMainFormResize(Object obj, EventArgs eventArgs)
+        private void OnMainFormResize(object obj, EventArgs eventArgs)
         {
             if (!Modal)
             {
@@ -299,7 +300,7 @@ namespace AntiDupl.NET
             }
         }
 
-        private void OnMinimizeToSystrayButtonClick(Object obj, EventArgs eventArgs)
+        private void OnMinimizeToSystrayButtonClick(object obj, EventArgs eventArgs)
         {
             m_mainFormWindowState = m_mainForm.WindowState;
             m_notifyIcon.Visible = true;
@@ -308,7 +309,7 @@ namespace AntiDupl.NET
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Idle;
         }
 
-        private void OnNotifyIconDoubleClick(Object obj, EventArgs eventArgs)
+        private void OnNotifyIconDoubleClick(object obj, EventArgs eventArgs)
         {
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
             m_notifyIcon.Visible = false;
@@ -332,7 +333,7 @@ namespace AntiDupl.NET
         {
             double progress = 0;
             int total = 0, currentFirst = 0, currentSecond = 0;
-            string path = "";
+            var path = "";
 
             CoreStatus mainThreadStatus = m_core.StatusGet(CoreDll.ThreadType.Main, 0);
             if (mainThreadStatus != null)
@@ -342,7 +343,7 @@ namespace AntiDupl.NET
                 {
                     if(m_coreOptions.compareOptions.checkOnEquality)
                     {
-                        for(int i = 0; ; i++)
+                        for(var i = 0; ; i++)
                         {
                             CoreStatus compareThreadStatus = m_core.StatusGet(CoreDll.ThreadType.Compare, i);
                             if (compareThreadStatus == null)
@@ -358,7 +359,7 @@ namespace AntiDupl.NET
                     else
                     {
                         currentFirst = mainThreadStatus.current;
-                        for (int i = 0; ; i++)
+                        for (var i = 0; ; i++)
                         {
                             CoreStatus collectThreadStatus = m_core.StatusGet(CoreDll.ThreadType.Collect, i);
                             if(collectThreadStatus == null)

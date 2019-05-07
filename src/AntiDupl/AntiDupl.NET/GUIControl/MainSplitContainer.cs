@@ -22,8 +22,6 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -41,10 +39,8 @@ namespace AntiDupl.NET
 
         private MainForm m_mainForm;
         private Options m_options;
-        CoreLib m_core;
-        private CoreOptions m_coreOptions;
-
-        private ResultsListView m_resultsListView;
+        readonly CoreLib m_core;
+        private readonly CoreOptions m_coreOptions;
         private ResultsPreviewContainer m_resultsPreviewContainer;
 
         private ThumbnailGroupTable m_thumbnailGroupTable;
@@ -53,7 +49,7 @@ namespace AntiDupl.NET
         bool m_setOrientationNow = false;
         bool m_atLeastOneTimeSetOrientation = false;
 
-        public ResultsListView resultsListView { get { return m_resultsListView; } }
+        public ResultsListView resultsListView { get; }
 
         public delegate void UpdateResultsHandler();
         public event UpdateResultsHandler OnUpdateResults;
@@ -71,7 +67,7 @@ namespace AntiDupl.NET
             m_core = core;
             m_coreOptions = coreOptions;
 
-            m_resultsListView = new ResultsListView(m_core, m_options, m_coreOptions, this);
+            resultsListView = new ResultsListView(m_core, m_options, m_coreOptions, this);
             m_resultsPreviewContainer = new ResultsPreviewContainer(m_core, m_options, m_coreOptions, this);
 
             //m_resultsListView.UpdateResults();
@@ -112,7 +108,7 @@ namespace AntiDupl.NET
             Panel1.Controls.Clear();
             if (viewMode == ResultsOptions.ViewMode.VerticalPairTable || viewMode == ResultsOptions.ViewMode.HorizontalPairTable)
             {
-                Panel2.Controls.Add(m_resultsListView);
+                Panel2.Controls.Add(resultsListView);
                 Panel1.Controls.Add(m_resultsPreviewContainer);
             }
             if (viewMode == ResultsOptions.ViewMode.GroupedThumbnails)
@@ -147,7 +143,7 @@ namespace AntiDupl.NET
             if (viewMode == ResultsOptions.ViewMode.VerticalPairTable || viewMode == ResultsOptions.ViewMode.HorizontalPairTable)
             {
                 m_resultsPreviewContainer.SetViewMode(viewMode);
-                m_resultsListView.SetViewMode(viewMode);
+                resultsListView.SetViewMode(viewMode);
             }
 
             m_atLeastOneTimeSetOrientation = true;
@@ -155,7 +151,7 @@ namespace AntiDupl.NET
             UpdateResults();
         }
 
-        private void OnSplitterPositionChanged(Object sender, SplitterEventArgs e)
+        private void OnSplitterPositionChanged(object sender, SplitterEventArgs e)
         {
             if (!m_setOrientationNow && m_atLeastOneTimeSetOrientation)
             {
@@ -163,7 +159,7 @@ namespace AntiDupl.NET
             }
         }
 
-        private void OnSizeChanged(object sender, System.EventArgs e)
+        private void OnSizeChanged(object sender, EventArgs e)
         {
             if (m_atLeastOneTimeSetOrientation)
             {
@@ -229,7 +225,7 @@ namespace AntiDupl.NET
         {
             if (m_options.resultsOptions.IsPairTableView())
             {
-                m_resultsListView.SetKeyDownEvent(e);
+                resultsListView.SetKeyDownEvent(e);
             }
         }
 
@@ -237,45 +233,41 @@ namespace AntiDupl.NET
         {
             if (m_options.resultsOptions.IsPairTableView())
             {
-                if (m_resultsListView != null)
-                    m_resultsListView.UpdateResults();
+                if (resultsListView != null)
+                    resultsListView.UpdateResults();
             }
             else
             {
                 if (m_thumbnailGroupTable != null)
                     m_thumbnailGroupTable.UpdateGroups();
             }
-            if (OnUpdateResults != null)
-                OnUpdateResults();
+            OnUpdateResults?.Invoke();
         }
 
         public void ClearResults()
         {
             if (m_options.resultsOptions.IsPairTableView())
             {
-                if (m_resultsListView != null)
-                    m_resultsListView.ClearResults();
+                if (resultsListView != null)
+                    resultsListView.ClearResults();
             }
             else
             {
                 if (m_thumbnailGroupTable != null)
                     m_thumbnailGroupTable.ClearGroups();
             }
-            if (OnUpdateResults != null)
-                OnUpdateResults();
+            OnUpdateResults?.Invoke();
             CurrentResultChanged();
         }
 
         public void CurrentResultChanged()
         {
-            if (OnCurrentResultChanged != null)
-                OnCurrentResultChanged();
+            OnCurrentResultChanged?.Invoke();
         }
 
         public void SelectedResultsChanged()
         {
-            if (OnSelectedResultsChanged != null)
-                OnSelectedResultsChanged();
+            OnSelectedResultsChanged?.Invoke();
         }
     }
 }

@@ -21,11 +21,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Win32;
-using System.IO;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -33,7 +29,7 @@ namespace AntiDupl.NET
 {
     static public class FolderOpener
     {
-        static private bool m_canOpenFolderWithExplorer = CanOpenFolderWithExplorer();
+        private static readonly bool m_canOpenFolderWithExplorer = CanOpenFolderWithExplorer();
 
         static private bool CanOpenFolderWithExplorer()
         {
@@ -49,7 +45,7 @@ namespace AntiDupl.NET
                         RegistryKey rkCommand = rkExplore.OpenSubKey("command");
                         if (rkCommand != null)
                         {
-                            string defaultValue = (string)rkCommand.GetValue("");
+                            var defaultValue = (string)rkCommand.GetValue("");
                             if (defaultValue != null)
                             {
                                 if (defaultValue.ToLowerInvariant().Contains("explorer.exe"))
@@ -65,7 +61,7 @@ namespace AntiDupl.NET
                         RegistryKey rkCommand = rkOpen.OpenSubKey("command");
                         if (rkCommand != null)
                         {
-                            string defaultValue = (string)rkCommand.GetValue("");
+                            var defaultValue = (string)rkCommand.GetValue("");
                             if (defaultValue != null)
                             {
                                 if (defaultValue.ToLowerInvariant().Contains("explorer.exe"))
@@ -90,8 +86,10 @@ namespace AntiDupl.NET
                 }
                 else
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo();
-                    startInfo.FileName = imageInfo.GetDirectoryString();
+                    var startInfo = new ProcessStartInfo
+                    {
+                        FileName = imageInfo.GetDirectoryString()
+                    };
                     Process.Start(startInfo);
                 }
             }

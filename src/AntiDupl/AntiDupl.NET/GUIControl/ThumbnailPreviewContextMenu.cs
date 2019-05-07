@@ -22,20 +22,17 @@
 * SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.Win32;
 using System.ComponentModel;
 
 namespace AntiDupl.NET
 {
     public class ThumbnailPreviewContextMenu : ContextMenuStrip
     {
-        private CoreLib m_core;
-        private Options m_options;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
         private ThumbnailPreview m_thumbnailPreview;
         private ThumbnailGroupTable m_thumbnailGroupTable;
 
@@ -92,13 +89,15 @@ namespace AntiDupl.NET
 
         private void OpenImage(object sender, EventArgs e)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = m_thumbnailPreview.ImageInfo.path;
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = m_thumbnailPreview.ImageInfo.path
+            };
             try
             {
                 Process.Start(startInfo);
             }
-            catch (System.Exception exeption)
+            catch (Exception exeption)
             {
                 MessageBox.Show(exeption.Message);
             }
@@ -116,13 +115,15 @@ namespace AntiDupl.NET
 
         private void RenameImage(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.FileName = m_thumbnailPreview.ImageInfo.path;
-            dialog.OverwritePrompt = false;
-            dialog.AddExtension = true;
-            dialog.CheckPathExists = true;
-            dialog.DefaultExt = (new FileInfo(m_thumbnailPreview.ImageInfo.path)).Extension;
-            dialog.FileOk += new System.ComponentModel.CancelEventHandler(OnRenameImageDialogFileOk);
+            var dialog = new SaveFileDialog
+            {
+                FileName = m_thumbnailPreview.ImageInfo.path,
+                OverwritePrompt = false,
+                AddExtension = true,
+                CheckPathExists = true,
+                DefaultExt = (new FileInfo(m_thumbnailPreview.ImageInfo.path)).Extension
+            };
+            dialog.FileOk += new CancelEventHandler(OnRenameImageDialogFileOk);
             dialog.Title = Resources.Strings.Current.ImagePreviewContextMenu_RenameImageItem_Text;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -135,9 +136,9 @@ namespace AntiDupl.NET
 
         private void OnRenameImageDialogFileOk(object sender, CancelEventArgs e)
         {
-            SaveFileDialog dialog = (SaveFileDialog)sender;
-            FileInfo oldFileInfo = new FileInfo(m_thumbnailPreview.ImageInfo.path);
-            FileInfo newFileInfo = new FileInfo(dialog.FileName);
+            var dialog = (SaveFileDialog)sender;
+            var oldFileInfo = new FileInfo(m_thumbnailPreview.ImageInfo.path);
+            var newFileInfo = new FileInfo(dialog.FileName);
             if (newFileInfo.FullName != oldFileInfo.FullName && newFileInfo.Exists)
             {
                 MessageBox.Show(Resources.Strings.Current.ErrorMessage_FileAlreadyExists,

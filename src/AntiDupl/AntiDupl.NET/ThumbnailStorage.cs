@@ -21,9 +21,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Threading;
 
@@ -59,7 +57,7 @@ namespace AntiDupl.NET
         /// <returns></returns>
         public bool Exists(CoreImageInfo imageInfo)
         {
-            bool result = false;
+            var result = false;
             m_mutex.WaitOne();
             if (m_storage.ContainsKey(imageInfo.id))
             {
@@ -81,10 +79,9 @@ namespace AntiDupl.NET
         /// <returns></returns>
         public Bitmap Get(CoreImageInfo imageInfo)
         {
-            Bitmap bitmap = null;
             Size size = GetThumbnailSize(imageInfo);
             m_mutex.WaitOne();
-            m_storage.TryGetValue(imageInfo.id, out bitmap);
+            m_storage.TryGetValue(imageInfo.id, out Bitmap bitmap);
             if (bitmap == null || bitmap.Height != size.Height || bitmap.Width != size.Width)
             {
                 m_mutex.ReleaseMutex(); // поток может работать дальше
