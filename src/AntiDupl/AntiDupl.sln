@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27205.2004
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net", "net", "{F75878C9-56D7-4344-9DAF-4C09BD154ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiDupl.NET", "AntiDupl.NET\AntiDupl.NET.csproj", "{394E0C8E-33D5-44B5-8056-5AD2B1C3C56A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntiDupl.NET", "AntiDupl.NET\AntiDupl.NET.csproj", "{394E0C8E-33D5-44B5-8056-5AD2B1C3C56A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98B260CA-03AE-40AD-9D64-A86F5544D04D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
