@@ -24,14 +24,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("AntiDupl.NET")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ErmIg")]
-[assembly: AssemblyProduct("AntiDupl.NET")]
-[assembly: AssemblyCopyright("ErmIg © 2002-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion(AntiDupl.NET.External.Version)]
-[assembly: AssemblyFileVersion(AntiDupl.NET.External.Version)]
 [assembly: ComVisible(false)]
