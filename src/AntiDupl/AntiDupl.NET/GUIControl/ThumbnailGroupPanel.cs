@@ -33,7 +33,7 @@ namespace AntiDupl.NET
     public class ThumbnailGroupPanel : RaisedPanel
     {
         private readonly CoreLib m_core;
-        private CoreGroup m_group;
+        private readonly CoreGroup m_group;
         private readonly Options m_options;
         public ThumbnailPanel[] ThumbnailPanels { get; private set; }
         public ThumbnailGroupTable Table { get; }

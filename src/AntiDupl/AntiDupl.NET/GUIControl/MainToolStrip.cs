@@ -32,12 +32,12 @@ namespace AntiDupl.NET
     /// </summary>
     public class MainToolStrip : ToolStrip
     {
-        private CoreLib m_core;
-        private Options m_options;
-        private CoreOptions m_coreOptions;
-        private MainMenu m_mainMenu;
-        private MainForm m_mainForm;
-        private MainSplitContainer m_mainSplitContainer;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
+        private readonly CoreOptions m_coreOptions;
+        private readonly MainMenu m_mainMenu;
+        private readonly MainForm m_mainForm;
+        private readonly MainSplitContainer m_mainSplitContainer;
 
         private ToolStripButton m_profileOpenButton;
         private ToolStripButton m_profileSaveAsButton;
@@ -78,7 +78,7 @@ namespace AntiDupl.NET
 
         private void InitializeComponents()
         {
-            Visible = m_options.mainFormOptions.toolStripView;
+            Visible = m_options.mainFormOptions.ToolStripView;
             RenderMode = ToolStripRenderMode.System;
             BackColor = SystemColors.Control;
             GripStyle = ToolStripGripStyle.Hidden;

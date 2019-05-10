@@ -30,7 +30,7 @@ namespace AntiDupl.NET
     {
         private const int LOGO_SIZE = 32;
 
-        private CoreLib m_core;
+        private readonly CoreLib m_core;
 
         public AboutProgramPanel(CoreLib core)
         {
@@ -47,7 +47,7 @@ namespace AntiDupl.NET
             layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             layout.AutoSize = true;
 
-            layout.Controls.Add(CreateLogotype(new Font(this.Font.FontFamily, this.Font.Size * 2.0f)), 0, 0);
+            layout.Controls.Add(CreateLogotype(new Font(Font.FontFamily, Font.Size * 2.0f)), 0, 0);
 
             layout.Controls.Add(GetCoopyrightLabel(0), 0, 1);
 
@@ -66,7 +66,7 @@ namespace AntiDupl.NET
                 case 0: text = Resources.Strings.Current.AboutProgramPanel_CopyrightLabel0_Text; break;
                 case 1: text = Resources.Strings.Current.AboutProgramPanel_CopyrightLabel1_Text; break;
             }
-            Label label = CreateLabel(text, new Font(this.Font.FontFamily, this.Font.Size * 1.2f));
+            Label label = CreateLabel(text, new Font(Font.FontFamily, Font.Size * 1.2f));
             label.Margin = new Padding(0, (index == 0 ? 10 : 0), 0, (index == 1 ? 10 : 0));
             return label;
         }

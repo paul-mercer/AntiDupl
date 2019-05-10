@@ -28,7 +28,7 @@ namespace AntiDupl.NET
 {
     public class LabeledComboBox : TableLayoutPanel
     {
-        private Label m_label;
+        private readonly Label m_label;
 
         public ComboBox comboBox { get; }
         public override string Text { get { return m_label.Text; } set { m_label.Text = value; } }

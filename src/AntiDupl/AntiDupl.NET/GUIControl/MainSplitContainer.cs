@@ -37,14 +37,14 @@ namespace AntiDupl.NET
         public const int VIEW_MIN_HEIGHT = 200;
         public const int LIST_MIN_HEIGHT = 0;
 
-        private MainForm m_mainForm;
-        private Options m_options;
+        private readonly MainForm m_mainForm;
+        private readonly Options m_options;
         readonly CoreLib m_core;
         private readonly CoreOptions m_coreOptions;
-        private ResultsPreviewContainer m_resultsPreviewContainer;
+        private readonly ResultsPreviewContainer m_resultsPreviewContainer;
 
-        private ThumbnailGroupTable m_thumbnailGroupTable;
-        private ThumbnailPreview m_thumbnailPreview;
+        private readonly ThumbnailGroupTable m_thumbnailGroupTable;
+        private readonly ThumbnailPreview m_thumbnailPreview;
         
         bool m_setOrientationNow = false;
         bool m_atLeastOneTimeSetOrientation = false;

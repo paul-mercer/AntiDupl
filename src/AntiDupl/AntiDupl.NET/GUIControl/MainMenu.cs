@@ -30,12 +30,12 @@ namespace AntiDupl.NET
 {
     public class MainMenu : MenuStrip
     {
-        private CoreLib m_core;
-        private Options m_options;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
         private CoreOptions m_coreOptions;
 
-        private MainForm m_mainForm;
-        private MainSplitContainer m_mainSplitContainer;
+        private readonly MainForm m_mainForm;
+        private readonly MainSplitContainer m_mainSplitContainer;
 
         private ToolStripMenuItem m_fileMenuItem;
         private ToolStripMenuItem m_file_profileOpenMenuItem;
@@ -123,8 +123,8 @@ namespace AntiDupl.NET
             m_editMenuItem.DropDownItems.Add(new ToolStripSeparator());
             m_editMenuItem.DropDownItems.Add(m_edit_selectAllMenuItem);
 
-            m_view_toolMenuItem = InitFactory.MenuItem.Create(null, null, ViewItemCheckChangeAction, m_options.mainFormOptions.toolStripView);
-            m_view_statusMenuItem = InitFactory.MenuItem.Create(null, null, ViewItemCheckChangeAction, m_options.mainFormOptions.statusStripView);
+            m_view_toolMenuItem = InitFactory.MenuItem.Create(null, null, ViewItemCheckChangeAction, m_options.mainFormOptions.ToolStripView);
+            m_view_statusMenuItem = InitFactory.MenuItem.Create(null, null, ViewItemCheckChangeAction, m_options.mainFormOptions.StatusStripView);
             m_view_languageMenuItem = new LanguageMenuItem(m_options);
             m_view_modeMenuItem = new ViewModeMenuItem(m_options);
             m_view_selectColumnsMenuItem = InitFactory.MenuItem.Create(null, null, OnSelectColumnsClick);
@@ -241,11 +241,11 @@ namespace AntiDupl.NET
             var item = (ToolStripMenuItem)sender;
             if (item == m_view_toolMenuItem)
             {
-                m_options.mainFormOptions.toolStripView = item.Checked;
+                m_options.mainFormOptions.ToolStripView = item.Checked;
             }
             else if (item == m_view_statusMenuItem)
             {
-                m_options.mainFormOptions.statusStripView = item.Checked;
+                m_options.mainFormOptions.StatusStripView = item.Checked;
             }
             else if (item == m_view_stretchSmallImageMenuItem)
             {

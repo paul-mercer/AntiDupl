@@ -37,9 +37,9 @@ namespace AntiDupl.NET
         public uint height;
         public double blockiness;
         public double blurring;
-        public CoreDll.adImageExifW exifInfo;
+        public CoreDll.AdImageExifW exifInfo;
 
-        public CoreImageInfo(ref CoreDll.adImageInfoW imageInfo)
+        public CoreImageInfo(ref CoreDll.AdImageInfoW imageInfo)
         {
             id = (ulong)imageInfo.id;
             path = imageInfo.path;

@@ -39,9 +39,9 @@ namespace AntiDupl.NET
         };
         private State m_state = State.Empty;
 
-        private ResultsPreviewDefect m_resultsPreviewDefect;
-        private ResultsPreviewDuplPair m_resultsPreviewDuplPair;
-        private MainSplitContainer m_mainSplitContainer;
+        private readonly ResultsPreviewDefect m_resultsPreviewDefect;
+        private readonly ResultsPreviewDuplPair m_resultsPreviewDuplPair;
+        private readonly MainSplitContainer m_mainSplitContainer;
 
         public ResultsPreviewContainer(CoreLib core, Options options, CoreOptions coreOptions, MainSplitContainer mainSplitContainer)
         {

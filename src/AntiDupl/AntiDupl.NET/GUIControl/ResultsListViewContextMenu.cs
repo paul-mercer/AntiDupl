@@ -32,10 +32,10 @@ namespace AntiDupl.NET
     /// </summary>
     public class ResultsListViewContextMenu : ContextMenuStrip
     {
-        private CoreLib m_core;
-        private Options m_options;
-        private CoreOptions m_coreOptions;
-        private MainSplitContainer m_mainSplitContainer;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
+        private readonly CoreOptions m_coreOptions;
+        private readonly MainSplitContainer m_mainSplitContainer;
 
         private ToolStripMenuItem m_deleteDefectItem;
         private ToolStripMenuItem m_deleteFirstItem;

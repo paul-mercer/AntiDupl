@@ -32,10 +32,10 @@ namespace AntiDupl.NET
     /// </summary>
     public class ThumbnailStorage
     {
-        private CoreLib m_core;
-        private Options m_options;
-        private Dictionary<ulong, Bitmap> m_storage = new Dictionary<ulong,Bitmap>();
-        private Mutex m_mutex = new Mutex();
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
+        private readonly Dictionary<ulong, Bitmap> m_storage = new Dictionary<ulong,Bitmap>();
+        private readonly Mutex m_mutex = new Mutex();
         
         public ThumbnailStorage(CoreLib core, Options options)
         {

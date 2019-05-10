@@ -36,7 +36,7 @@ namespace AntiDupl.NET
         public int groupSize;
         public CoreDll.HintType hint;
 
-        public CoreResult(ref CoreDll.adResultW result)
+        public CoreResult(ref CoreDll.AdResultW result)
         {
             type = result.type;
             first = new CoreImageInfo(ref result.first);

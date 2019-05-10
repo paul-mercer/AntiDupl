@@ -33,7 +33,7 @@ namespace AntiDupl.NET
 
         public Size sizeMax = new Size(0, 0);
 
-        public CoreGroup(ref CoreDll.adGroup group, CoreLib core)
+        public CoreGroup(ref CoreDll.AdGroup group, CoreLib core)
         {
             id = group.id.ToInt32();
             images = core.GetImageInfo(id, 0, (uint)group.size);

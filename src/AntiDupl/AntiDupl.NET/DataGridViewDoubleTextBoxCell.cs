@@ -36,8 +36,8 @@ namespace AntiDupl.NET
         const int TOP_INTEND = 2;
         const int RIGHT_INTEND = 1;
 
-        public Color separatorColor { get; set; } = Color.LightGray;
-        public Color markerColor { get; set; } = Color.Red;
+        public Color SeparatorColor { get; set; } = Color.LightGray;
+        public Color MarkerColor { get; set; } = Color.Red;
 
         public enum MarkType
         {
@@ -49,8 +49,8 @@ namespace AntiDupl.NET
         public MarkType markType { get; set; } = MarkType.None;
 
 
-        private object m_first;
-        private object m_second;
+        private readonly object m_first;
+        private readonly object m_second;
 
         public DataGridViewDoubleTextBoxCell(object first, object second)
         {
@@ -71,12 +71,12 @@ namespace AntiDupl.NET
             if ((cellState & DataGridViewElementStates.Selected) != 0)
             {
                 ordinaryColor = cellStyle.SelectionForeColor;
-                markColor = markerColor;
+                markColor = MarkerColor;
             }
             else
             {
                 ordinaryColor = cellStyle.ForeColor;
-                markColor = markerColor;
+                markColor = MarkerColor;
             }
 
             switch (markType)
@@ -103,7 +103,7 @@ namespace AntiDupl.NET
                     break;
             }
 
-            var separatorPen = new Pen(separatorColor);
+            var separatorPen = new Pen(SeparatorColor);
             var separatorX = (cellBounds.Top + cellBounds.Bottom) / 2;
             var format = new StringFormat
             {

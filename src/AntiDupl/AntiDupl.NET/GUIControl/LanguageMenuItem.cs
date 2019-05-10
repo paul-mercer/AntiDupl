@@ -29,7 +29,7 @@ namespace AntiDupl.NET
 {
     public class LanguageMenuItem : ToolStripMenuItem
     {
-        private Options m_options;
+        private readonly Options m_options;
 
         private ToolStripMenuItem[] m_items;
 

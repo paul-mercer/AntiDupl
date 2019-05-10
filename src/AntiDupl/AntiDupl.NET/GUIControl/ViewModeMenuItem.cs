@@ -29,7 +29,7 @@ namespace AntiDupl.NET
 {
     public class ViewModeMenuItem : ToolStripMenuItem
     {
-        private Options m_options;
+        private readonly Options m_options;
 
         private ToolStripMenuItem m_verticalPairTableMenuItem;
         private ToolStripMenuItem m_horizontalPairTableMenuItem;

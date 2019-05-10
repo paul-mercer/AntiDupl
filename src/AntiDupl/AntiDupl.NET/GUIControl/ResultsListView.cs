@@ -83,9 +83,9 @@ namespace AntiDupl.NET
             Size
         }
 
-        private MainSplitContainer m_mainSplitContainer;
-        private CoreLib m_core;
-        private Options m_options;
+        private readonly MainSplitContainer m_mainSplitContainer;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
         public CoreOptions CoreOptions { get; }
 
         private CoreResult[] m_results;
@@ -100,7 +100,7 @@ namespace AntiDupl.NET
         private bool m_makeAction = false;
 
         ContextMenuStrip m_contextMenuStrip;
-        ResultRowSetter m_resultRowSetter;
+        readonly ResultRowSetter m_resultRowSetter;
 
         public ResultsListView(CoreLib core, Options options, CoreOptions coreOptions, MainSplitContainer mainSplitContainer)
         {
@@ -135,7 +135,7 @@ namespace AntiDupl.NET
             AllowUserToResizeRows = false;
             AllowUserToDeleteRows = false;
             AllowUserToOrderColumns = true;
-            this.BackgroundColor = Color.White;
+            BackgroundColor = Color.White;
             ReadOnly = true;
             ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
             DoubleBuffered = true;

@@ -39,7 +39,7 @@ namespace AntiDupl.NET
         public uint deletedImageNumber;
         public ulong deletedImageSize;
         
-        public CoreStatistic(ref CoreDll.adStatistic statistic)
+        public CoreStatistic(ref CoreDll.AdStatistic statistic)
         {
             scanedFolderNumber = statistic.scanedFolderNumber.ToUInt32();
             searchedImageNumber = statistic.searchedImageNumber.ToUInt32();
