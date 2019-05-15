@@ -32,35 +32,29 @@ namespace AntiDupl.NET
         [STAThread]
         static void Main(string[] args)
         {
-            if (IsDotNet35Installed)
+            string customSavePath = null;
+            if (GetParameter(args, "-s", ref customSavePath))
             {
-                string customSavePath = null;
-                if (GetParameter(args, "-s", ref customSavePath))
-                {
-                    var directoryInfo = new DirectoryInfo(customSavePath);
-                    if (!directoryInfo.Exists)
-                        throw new Exception(string.Format("The directory '{0}' is not exists!", customSavePath));
-                    Resources.UserPath = customSavePath;
-                }
-                else
-                {
-                    Resources.UserPath = Resources.GetDefaultUserPath();
-                }
-                Resources.Strings.Initialize();
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
+                var directoryInfo = new DirectoryInfo(customSavePath);
+                if (!directoryInfo.Exists)
+                    throw new Exception(string.Format("The directory '{0}' is not exists!", customSavePath));
+                Resources.UserPath = customSavePath;
             }
-            else if (MessageBox.Show("You Need Microsoft .NET Framework 3.5 in order to run this program. Want to download .Net Framework 3.5?", "Warning",
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
-                System.Diagnostics.Process.Start("http://www.microsoft.com/ru-ru/download/details.aspx?id=22");
+            else
+            {
+                Resources.UserPath = Resources.GetDefaultUserPath();
+            }
+            Resources.Strings.Initialize();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
         }
-
+               
         static bool GetParameter(string[] args, string name, ref string value)
         {
-            for(var i = 0; i < args.Length - 1; i++)
+            for (var i = 0; i < args.Length - 1; i++)
             {
-                if(string.Compare(args[i], name) == 0)
+                if (string.Compare(args[i], name) == 0)
                 {
                     value = args[i + 1];
                     return true;
@@ -68,21 +62,5 @@ namespace AntiDupl.NET
             }
             return false;
         }
-
-        private static bool IsDotNet35Installed
-        {
-            get
-            {
-                try
-                {
-                    return (Convert.ToInt32(Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5").GetValue("Install")) == 1);
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
-
     }
 }
