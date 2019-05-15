@@ -29,8 +29,8 @@ namespace AntiDupl.NET
 {
     class MainStatusStrip : StatusStrip
     {
-        private MainSplitContainer m_mainSplitContainer;
-        private Options m_options;
+        private readonly MainSplitContainer m_mainSplitContainer;
+        private readonly Options m_options;
 
         private ToolStripStatusLabel m_totalLabel;
         private ToolStripStatusLabel m_currentLabel;
@@ -52,7 +52,7 @@ namespace AntiDupl.NET
         private void InitializeComponents()
         {
             SizingGrip = false;
-            Visible = m_options.mainFormOptions.statusStripView;
+            Visible = m_options.mainFormOptions.StatusStripView;
 
             m_totalLabel = new ToolStripStatusLabel
             {

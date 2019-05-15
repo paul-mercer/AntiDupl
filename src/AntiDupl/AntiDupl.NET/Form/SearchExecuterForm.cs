@@ -47,11 +47,11 @@ namespace AntiDupl.NET
         }
         State m_state = State.Start;
 
-        private CoreLib m_core;
-        private Options m_options;
-        private CoreOptions m_coreOptions;
-        private MainSplitContainer m_mainSplitContainer;
-        private MainForm m_mainForm;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
+        private readonly CoreOptions m_coreOptions;
+        private readonly MainSplitContainer m_mainSplitContainer;
+        private readonly MainForm m_mainForm;
         private System.Windows.Forms.Timer m_timer;
         private DateTime m_startDateTime;
         private FormWindowState m_mainFormWindowState;

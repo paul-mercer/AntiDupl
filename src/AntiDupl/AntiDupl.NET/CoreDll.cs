@@ -303,7 +303,7 @@ namespace AntiDupl.NET
         //-----------API structures--------------------------------------------
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct adSearchOptions
+        public struct AdSearchOptions
         {
             public int system;
             public int hidden;
@@ -323,7 +323,7 @@ namespace AntiDupl.NET
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct adCompareOptions
+        public struct AdCompareOptions
         {
             public int checkOnEquality;
             public int transformedImage;
@@ -339,7 +339,7 @@ namespace AntiDupl.NET
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct adDefectOptions
+        public struct AdDefectOptions
         {
             public int checkOnDefect;
             public int checkOnBlockiness;
@@ -350,7 +350,7 @@ namespace AntiDupl.NET
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct adAdvancedOptions
+        public struct AdAdvancedOptions
         {
             public int deleteToRecycleBin;
             public int mistakeDataBase;
@@ -364,7 +364,7 @@ namespace AntiDupl.NET
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct adStatistic
+        public struct AdStatistic
         {
             public UIntPtr scanedFolderNumber;
             public UIntPtr searchedImageNumber;
@@ -380,7 +380,7 @@ namespace AntiDupl.NET
         };
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct adStatusW
+        public struct AdStatusW
         {
             public StateType state;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH_EX)]
@@ -392,7 +392,7 @@ namespace AntiDupl.NET
         public const int MAX_EXIF_SIZE = 260;
         // Она же class TImageExif decimal в dll
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct adImageExifW
+        public struct AdImageExifW
         {
             public int isEmpty;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_EXIF_SIZE)]
@@ -413,7 +413,7 @@ namespace AntiDupl.NET
 
         // Она же структура TImageInfo в dll.
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct adImageInfoW
+        public struct AdImageInfoW
         {
             public IntPtr id;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH_EX)]
@@ -425,17 +425,17 @@ namespace AntiDupl.NET
             public uint height;
             public double blockiness;
             public double blurring;
-            public adImageExifW exifInfo;
+            public AdImageExifW exifInfo;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public class adResultW
+        public class AdResultW
         {
             public ResultType type;
             [MarshalAs(UnmanagedType.Struct)]
-            public adImageInfoW first;
+            public AdImageInfoW first;
             [MarshalAs(UnmanagedType.Struct)]
-            public adImageInfoW second;
+            public AdImageInfoW second;
             public DefectType defect;
             public double difference;
             public TransformType transform;
@@ -445,14 +445,14 @@ namespace AntiDupl.NET
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct adGroup
+        public struct AdGroup
         {
             public IntPtr id;
             public IntPtr size;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct adBitmap
+        public struct AdBitmap
         {
             public uint width;
             public uint height;
@@ -462,7 +462,7 @@ namespace AntiDupl.NET
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct adPathWithSubFolderW
+        public struct AdPathWithSubFolderW
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH_EX)]
             public string path;

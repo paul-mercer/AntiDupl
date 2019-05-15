@@ -47,7 +47,7 @@ namespace AntiDupl.NET
             blurringThreshold = defectOptions.blurringThreshold;
         }
 
-        public CoreDefectOptions(ref CoreDll.adDefectOptions defectOptions)
+        public CoreDefectOptions(ref CoreDll.AdDefectOptions defectOptions)
         {
             checkOnDefect = defectOptions.checkOnDefect != CoreDll.FALSE;
             checkOnBlockiness = defectOptions.checkOnBlockiness != CoreDll.FALSE;
@@ -57,7 +57,7 @@ namespace AntiDupl.NET
             blurringThreshold = defectOptions.blurringThreshold;
         }
 
-        public void ConvertTo(ref CoreDll.adDefectOptions defectOptions)
+        public void ConvertTo(ref CoreDll.AdDefectOptions defectOptions)
         {
             defectOptions.checkOnDefect = checkOnDefect ? CoreDll.TRUE : CoreDll.FALSE;
             defectOptions.checkOnBlockiness = checkOnBlockiness ? CoreDll.TRUE : CoreDll.FALSE;

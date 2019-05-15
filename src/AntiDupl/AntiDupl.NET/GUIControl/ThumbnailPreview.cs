@@ -33,7 +33,7 @@ namespace AntiDupl.NET
     {
         private readonly CoreLib m_core;
         private readonly Options m_options;
-        private MainSplitContainer m_mainSplitContainer;
+        private readonly MainSplitContainer m_mainSplitContainer;
         public CoreGroup Group { get; private set; } = null;
         public int Index { get; private set; } = 0;
         public CoreImageInfo ImageInfo { get { return Group.images[Index]; } }

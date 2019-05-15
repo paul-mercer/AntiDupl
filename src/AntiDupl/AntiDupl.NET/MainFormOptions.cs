@@ -30,7 +30,7 @@ namespace AntiDupl.NET
     {
         public event Options.VisibleChangeHandler OnToolStripVisibleChange;
         private bool m_toolStripView = true;
-        public bool toolStripView
+        public bool ToolStripView
         {
             get
             {
@@ -48,7 +48,7 @@ namespace AntiDupl.NET
         
         public event Options.VisibleChangeHandler OnStatusStripVisibleChange;
         private bool m_statusStripView = true;
-        public bool statusStripView
+        public bool StatusStripView
         {
             get
             {

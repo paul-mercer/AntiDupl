@@ -46,7 +46,7 @@ namespace AntiDupl.NET
             var length = first.Length > second.Length ? second.Length : first.Length;
             for (var x = 0; x < length; x++)
             {
-                sum = sum + (int)Math.Pow((first[x] - second[x]), 2);
+                sum += (int)Math.Pow((first[x] - second[x]), 2);
             }
 
             return sum / length;

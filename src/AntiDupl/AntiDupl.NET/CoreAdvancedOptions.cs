@@ -53,7 +53,7 @@ namespace AntiDupl.NET
             ignoreFrameWidth = advancedOptions.ignoreFrameWidth;
         }
 
-        public CoreAdvancedOptions(ref CoreDll.adAdvancedOptions advancedOptions)
+        public CoreAdvancedOptions(ref CoreDll.AdAdvancedOptions advancedOptions)
         {
             deleteToRecycleBin = advancedOptions.deleteToRecycleBin != CoreDll.FALSE;
             mistakeDataBase = advancedOptions.mistakeDataBase != CoreDll.FALSE;
@@ -66,7 +66,7 @@ namespace AntiDupl.NET
             ignoreFrameWidth = advancedOptions.ignoreFrameWidth;
         }
 
-        public void ConvertTo(ref CoreDll.adAdvancedOptions advancedOptions)
+        public void ConvertTo(ref CoreDll.AdAdvancedOptions advancedOptions)
         {
             advancedOptions.deleteToRecycleBin = deleteToRecycleBin ? CoreDll.TRUE : CoreDll.FALSE;
             advancedOptions.mistakeDataBase = mistakeDataBase ? CoreDll.TRUE : CoreDll.FALSE;

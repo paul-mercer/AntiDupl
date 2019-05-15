@@ -37,9 +37,9 @@ namespace AntiDupl.NET
         static public int FORM_HEIGHT = 350;
 
         private readonly CoreLib m_core;
-        private Options m_options;
+        private readonly Options m_options;
         private CoreOptions m_oldCoreOptions; //опции до изменения
-        private CoreOptions m_newCoreOptions; //опции после изменения
+        private readonly CoreOptions m_newCoreOptions; //опции после изменения
 
         private Button m_okButton;
         private Button m_cancelButton;
@@ -422,12 +422,12 @@ namespace AntiDupl.NET
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Array.Resize(ref path, path.Length + 1);
-                path[path.Length - 1] = new CorePathWithSubFolder();
-                if (dialog.SelectedPath[dialog.SelectedPath.Length - 1] == Path.DirectorySeparatorChar)
-                    path[path.Length - 1].path = dialog.SelectedPath.Remove(dialog.SelectedPath.Length - 1);
+                path[^1] = new CorePathWithSubFolder();
+                if (dialog.SelectedPath[^1] == Path.DirectorySeparatorChar)
+                    path[^1].path = dialog.SelectedPath.Remove(dialog.SelectedPath.Length - 1);
                 else
                     path[path.Length - 1].path = dialog.SelectedPath;
-                path[path.Length - 1].enableSubFolder = true;
+                path[^1].enableSubFolder = true;
                 SetCurrentPath(path);
                 m_newCoreOptions.Validate(m_core, m_options.onePath);
                 UpdatePath();
@@ -533,7 +533,7 @@ namespace AntiDupl.NET
                 };
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (dialog.SelectedPath[dialog.SelectedPath.Length - 1] == Path.DirectorySeparatorChar)
+                    if (dialog.SelectedPath[^1] == Path.DirectorySeparatorChar)
                         path[listBox.SelectedIndex].path = dialog.SelectedPath.Remove(dialog.SelectedPath.Length - 1);
                     else
                         path[listBox.SelectedIndex].path = dialog.SelectedPath;

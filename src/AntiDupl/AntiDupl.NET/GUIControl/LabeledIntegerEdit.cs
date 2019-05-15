@@ -28,8 +28,8 @@ namespace AntiDupl.NET
 {
     public class LabeledIntegerEdit : TableLayoutPanel
     {
-        private TextBox m_textBox;
-        private Label m_label;
+        private readonly TextBox m_textBox;
+        private readonly Label m_label;
         private int m_value = 0;
         private int m_min = int.MinValue;
         private int m_max = int.MaxValue;

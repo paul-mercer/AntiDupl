@@ -30,8 +30,8 @@ namespace AntiDupl.NET
 {
     public class ClipboardContentBuilder
     {
-        private StringBuilder m_builder;
-        private ResultsOptions m_options;
+        private readonly StringBuilder m_builder;
+        private readonly ResultsOptions m_options;
         private bool m_insertTab;
 
         public ClipboardContentBuilder(ResultsOptions options)

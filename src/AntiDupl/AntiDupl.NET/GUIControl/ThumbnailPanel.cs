@@ -36,11 +36,11 @@ namespace AntiDupl.NET
         private const int IBW = 1;//Internal border width
         private const int EBW = 2;//External border width
 
-        private CoreLib m_core;
-        private CoreGroup m_group;
+        private readonly CoreLib m_core;
+        private readonly CoreGroup m_group;
         private readonly int m_index;
-        private Options m_options;
-        private ThumbnailGroupPanel m_thumbnailGroupPanel;
+        private readonly Options m_options;
+        private readonly ThumbnailGroupPanel m_thumbnailGroupPanel;
 
         private TableLayoutPanel m_mainLayout;
         private TableLayoutPanel m_controlLayout;

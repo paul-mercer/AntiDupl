@@ -143,7 +143,7 @@ namespace AntiDupl.NET
 
         public CoreStatistic GetStatistic()
         {
-            var statistic = new CoreDll.adStatistic[1];
+            var statistic = new CoreDll.AdStatistic[1];
             if (m_dll.adStatisticGet(m_handle, Marshal.UnsafeAddrOfPinnedArrayElement(statistic, 0)) == CoreDll.Error.Ok)
             {
                 return new CoreStatistic(ref statistic[0]);
@@ -153,12 +153,12 @@ namespace AntiDupl.NET
 
         public CoreStatus StatusGet(CoreDll.ThreadType threadType, int threadId)
         {
-            object statusObject = new CoreDll.adStatusW();
+            object statusObject = new CoreDll.AdStatusW();
             var status = new byte[Marshal.SizeOf(statusObject)];
             IntPtr pStatus = Marshal.UnsafeAddrOfPinnedArrayElement(status, 0);
             if (m_dll.adStatusGetW(m_handle, threadType, new IntPtr(threadId), pStatus) == CoreDll.Error.Ok)
             {
-                var statusW = (CoreDll.adStatusW)Marshal.PtrToStructure(pStatus, statusObject.GetType());
+                var statusW = (CoreDll.AdStatusW)Marshal.PtrToStructure(pStatus, statusObject.GetType());
                 try
                 {
                     return new CoreStatus(ref statusW);                
@@ -214,7 +214,7 @@ namespace AntiDupl.NET
             var resultSize = GetResultSize();
             if (resultSize > startFrom)
             {
-                object resultObject = new CoreDll.adResultW();
+                object resultObject = new CoreDll.AdResultW();
                 var sizeOfResult = Marshal.SizeOf(resultObject);
                 var buffer = new byte[sizeOfResult * PAGE_SIZE];
                 size = Math.Min(resultSize - startFrom, size);
@@ -235,7 +235,7 @@ namespace AntiDupl.NET
                         for (uint i = 0; i < pSize[0].ToUInt32(); ++i)
                         {
                             IntPtr pResult = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, (int)(i*sizeOfResult));
-                            var result = (CoreDll.adResultW)Marshal.PtrToStructure(pResult, resultObject.GetType());
+                            var result = (CoreDll.AdResultW)Marshal.PtrToStructure(pResult, resultObject.GetType());
                             results[page * PAGE_SIZE + i] = new CoreResult(ref result);
                         }
 
@@ -306,7 +306,7 @@ namespace AntiDupl.NET
             var groupSize = GetGroupSize();
             if (groupSize > startFrom)
             {
-                object groupObject = new CoreDll.adGroup();
+                object groupObject = new CoreDll.AdGroup();
                 var sizeOfGroup= Marshal.SizeOf(groupObject);
                 size = Math.Min(groupSize - startFrom, size);
                 var buffer = new byte[sizeOfGroup * size];
@@ -322,7 +322,7 @@ namespace AntiDupl.NET
                     for (uint i = 0; i < pSize[0].ToUInt32(); ++i)
                     {
                         IntPtr pGroup = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, (int)(i * sizeOfGroup));
-                        var group = (CoreDll.adGroup)Marshal.PtrToStructure(pGroup, groupObject.GetType());
+                        var group = (CoreDll.AdGroup)Marshal.PtrToStructure(pGroup, groupObject.GetType());
                         groups[i] = new CoreGroup(ref group, this);
                     }
                 }
@@ -359,7 +359,7 @@ namespace AntiDupl.NET
             var imageInfoSize = GetImageInfoSize(groupId);
             if (imageInfoSize > startFrom)
             {
-                object imageInfoObject = new CoreDll.adImageInfoW();
+                object imageInfoObject = new CoreDll.AdImageInfoW();
                 var sizeOfImageInfo = Marshal.SizeOf(imageInfoObject);
                 var buffer = new byte[sizeOfImageInfo * PAGE_SIZE];
                 size = Math.Min(imageInfoSize - startFrom, size);
@@ -380,7 +380,7 @@ namespace AntiDupl.NET
                         for (uint i = 0; i < pSize[0].ToUInt32(); ++i)
                         {
                             IntPtr pImageInfo = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, (int)(i * sizeOfImageInfo));
-                            var imageInfo = (CoreDll.adImageInfoW)Marshal.PtrToStructure(pImageInfo, imageInfoObject.GetType());
+                            var imageInfo = (CoreDll.AdImageInfoW)Marshal.PtrToStructure(pImageInfo, imageInfoObject.GetType());
                             imageInfos[page * PAGE_SIZE + i] = new CoreImageInfo(ref imageInfo);
                         }
 
@@ -441,8 +441,7 @@ namespace AntiDupl.NET
         {
             if (height * width == 0)
                 return null;
-
-            System.Drawing.Bitmap bitmap = null;
+            System.Drawing.Bitmap bitmap;
             try
             {
                 bitmap = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -465,7 +464,7 @@ namespace AntiDupl.NET
                 System.Drawing.Imaging.ImageLockMode.WriteOnly,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb,
                 bitmapData);
-            var pBitmap = new CoreDll.adBitmap[1];
+            var pBitmap = new CoreDll.AdBitmap[1];
             pBitmap[0].width = (uint)bitmapData.Width;
             pBitmap[0].height = (uint)bitmapData.Height;
             pBitmap[0].stride = bitmapData.Stride;
@@ -496,71 +495,71 @@ namespace AntiDupl.NET
 
         #region Public properties
 
-        public CoreSearchOptions searchOptions
+        public CoreSearchOptions SearchOptions
         {
             get
             {
-                var options = new CoreDll.adSearchOptions[1];
+                var options = new CoreDll.AdSearchOptions[1];
                 m_dll.adOptionsGet(m_handle, CoreDll.OptionsType.Search, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
                 return new CoreSearchOptions(options[0]);
             }
             set
             {
-                var options = new CoreDll.adSearchOptions[1];
+                var options = new CoreDll.AdSearchOptions[1];
                 value.ConvertTo(ref options[0]);
                 m_dll.adOptionsSet(m_handle, CoreDll.OptionsType.Search, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
             }
         }
 
-        public CoreCompareOptions compareOptions
+        public CoreCompareOptions CompareOptions
         {
             get
             {
-                var options = new CoreDll.adCompareOptions[1];
+                var options = new CoreDll.AdCompareOptions[1];
                 m_dll.adOptionsGet(m_handle, CoreDll.OptionsType.Compare, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
                 return new CoreCompareOptions(ref options[0]);
             }
             set
             {
-                var options = new CoreDll.adCompareOptions[1];
+                var options = new CoreDll.AdCompareOptions[1];
                 value.ConvertTo(ref options[0]);
                 m_dll.adOptionsSet(m_handle, CoreDll.OptionsType.Compare, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
             }
         }
 
-        public CoreDefectOptions defectOptions
+        public CoreDefectOptions DefectOptions
         {
             get
             {
-                var options = new CoreDll.adDefectOptions[1];
+                var options = new CoreDll.AdDefectOptions[1];
                 m_dll.adOptionsGet(m_handle, CoreDll.OptionsType.Defect, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
                 return new CoreDefectOptions(ref options[0]);
             }
             set
             {
-                var options = new CoreDll.adDefectOptions[1];
+                var options = new CoreDll.AdDefectOptions[1];
                 value.ConvertTo(ref options[0]);
                 m_dll.adOptionsSet(m_handle, CoreDll.OptionsType.Defect, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
             }
         }
 
-        public CoreAdvancedOptions advancedOptions
+        public CoreAdvancedOptions AdvancedOptions
         {
             get
             {
-                var options = new CoreDll.adAdvancedOptions[1];
+                var options = new CoreDll.AdAdvancedOptions[1];
                 m_dll.adOptionsGet(m_handle, CoreDll.OptionsType.Advanced, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
                 return new CoreAdvancedOptions(ref options[0]);
             }
             set
             {
-                var options = new CoreDll.adAdvancedOptions[1]; //создаем массив из одного значения
+                var options = new CoreDll.AdAdvancedOptions[1]; //создаем массив из одного значения
                 value.ConvertTo(ref options[0]); //конвертируем переданный класс
                 m_dll.adOptionsSet(m_handle, CoreDll.OptionsType.Advanced, Marshal.UnsafeAddrOfPinnedArrayElement(options, 0));
             }
         }
 
-        public CorePathWithSubFolder[] searchPath
+        public CorePathWithSubFolder[] SearchPath
         {
             get
             {
@@ -572,7 +571,7 @@ namespace AntiDupl.NET
             }
         }
 
-        public CorePathWithSubFolder[] ignorePath
+        public CorePathWithSubFolder[] IgnorePath
         {
             get
             {
@@ -584,7 +583,7 @@ namespace AntiDupl.NET
             }
         }
         
-        public CorePathWithSubFolder[] validPath
+        public CorePathWithSubFolder[] ValidPath
         {
             get
             {
@@ -596,7 +595,7 @@ namespace AntiDupl.NET
             }
         }
 
-        public CorePathWithSubFolder[] deletePath
+        public CorePathWithSubFolder[] DeletePath
         {
             get
             {

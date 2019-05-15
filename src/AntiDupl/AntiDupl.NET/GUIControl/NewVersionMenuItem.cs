@@ -37,7 +37,7 @@ namespace AntiDupl.NET
         private Version m_localVersion;
         private Version m_onlineVersion;
 
-        private Options m_options;
+        private readonly Options m_options;
 
         private System.Windows.Forms.Timer m_timer;
 

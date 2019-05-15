@@ -43,10 +43,10 @@ namespace AntiDupl.NET
         static public int COMBO_BOX_HEIGHT = 20;
 
         private readonly CoreLib m_core;
-        private Options m_options;
+        private readonly Options m_options;
         private CoreOptions m_oldCoreOptions;
         private CoreOptions m_newCoreOptions;
-        private CoreOptions m_defaultCoreOptions;
+        private readonly CoreOptions m_defaultCoreOptions;
         private readonly ResultsOptions m_oldResultsOptions;
 
         private Button m_okButton;

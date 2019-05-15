@@ -31,7 +31,7 @@ namespace AntiDupl.NET
 {
     public class StartFinishForm : Form
     {
-        static private TimeSpan VIEW_START_TIME_MIN = TimeSpan.FromSeconds(3.0);
+        private static readonly TimeSpan VIEW_START_TIME_MIN = TimeSpan.FromSeconds(3.0);
 
         private enum State
         {
@@ -49,8 +49,8 @@ namespace AntiDupl.NET
         }
         State m_state = State.Start;
 
-        private CoreLib m_core;
-        private Options m_options;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
         private System.Windows.Forms.Timer m_timer;
 
         private AboutProgramPanel m_aboutProgramPanel;

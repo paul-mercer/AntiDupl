@@ -47,7 +47,7 @@ namespace AntiDupl.NET
                 if (m_module == IntPtr.Zero)
                     throw new Exception(string.Format("Can't load {0} dynamic library!", FileName));
 
-                FieldInfo[] fields = this.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+                FieldInfo[] fields = GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
                 for (var i = 0; i < fields.Length; ++i)
                 {
                     FieldInfo field = fields[i];

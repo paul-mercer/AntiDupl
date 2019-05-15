@@ -93,20 +93,20 @@ namespace AntiDupl.NET
 
         public void Get(CoreLib core, bool onePath)
         {
-            searchOptions = core.searchOptions.Clone();
-            compareOptions = core.compareOptions.Clone();
-            defectOptions = core.defectOptions.Clone();
-            advancedOptions = core.advancedOptions.Clone();
+            searchOptions = core.SearchOptions.Clone();
+            compareOptions = core.CompareOptions.Clone();
+            defectOptions = core.DefectOptions.Clone();
+            advancedOptions = core.AdvancedOptions.Clone();
             if (onePath)
             {
-                searchPath[0] = core.searchPath[0];
+                searchPath[0] = core.SearchPath[0];
             }
             else
             {
-                searchPath = core.searchPath;
-                ignorePath = core.ignorePath;
-                validPath = core.validPath;
-                deletePath = core.deletePath;
+                searchPath = core.SearchPath;
+                ignorePath = core.IgnorePath;
+                validPath = core.ValidPath;
+                deletePath = core.DeletePath;
             }
         }
 
@@ -117,10 +117,10 @@ namespace AntiDupl.NET
         /// <param name="onePath"></param>
         public void Set(CoreLib core, bool onePath)
         {
-            core.searchOptions = searchOptions.Clone();
-            core.compareOptions = compareOptions.Clone();
-            core.defectOptions = defectOptions.Clone();
-            core.advancedOptions = advancedOptions.Clone();
+            core.SearchOptions = searchOptions.Clone();
+            core.CompareOptions = compareOptions.Clone();
+            core.DefectOptions = defectOptions.Clone();
+            core.AdvancedOptions = advancedOptions.Clone();
             if (onePath)
             {
                 var tmpSearch = new CorePathWithSubFolder[1];
@@ -129,17 +129,17 @@ namespace AntiDupl.NET
                     tmpSearch[0] = searchPath[0];
                 else
                     tmpSearch[0].path = Application.StartupPath;
-                core.searchPath = tmpSearch;
-                core.ignorePath = tmpOther;
-                core.validPath = tmpOther;
-                core.deletePath = tmpOther;
+                core.SearchPath = tmpSearch;
+                core.IgnorePath = tmpOther;
+                core.ValidPath = tmpOther;
+                core.DeletePath = tmpOther;
             }
             else
             {
-                core.searchPath = searchPath;
-                core.ignorePath = ignorePath;
-                core.validPath = validPath;
-                core.deletePath = deletePath;
+                core.SearchPath = searchPath;
+                core.IgnorePath = ignorePath;
+                core.ValidPath = validPath;
+                core.DeletePath = deletePath;
             }
         }
 

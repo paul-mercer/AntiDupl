@@ -57,7 +57,7 @@ namespace AntiDupl.NET
             compareInsideOneSearchPath = compareOptions.compareInsideOneSearchPath;
         }
 
-        public CoreCompareOptions(ref CoreDll.adCompareOptions compareOptions)
+        public CoreCompareOptions(ref CoreDll.AdCompareOptions compareOptions)
         {
             checkOnEquality = compareOptions.checkOnEquality != CoreDll.FALSE;
             transformedImage = compareOptions.transformedImage != CoreDll.FALSE;
@@ -72,7 +72,7 @@ namespace AntiDupl.NET
             compareInsideOneSearchPath = compareOptions.compareInsideOneSearchPath != CoreDll.FALSE;
         }
 
-        public void ConvertTo(ref CoreDll.adCompareOptions compareOptions)
+        public void ConvertTo(ref CoreDll.AdCompareOptions compareOptions)
         {
             compareOptions.checkOnEquality = checkOnEquality ? CoreDll.TRUE : CoreDll.FALSE;
             compareOptions.transformedImage = transformedImage ? CoreDll.TRUE : CoreDll.FALSE;

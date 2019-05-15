@@ -33,9 +33,9 @@ namespace AntiDupl.NET
         public const int MIN_HEIGHT = 520;
         public const int MIN_WIDTH = 790;
 
-        private Options m_options;
-        private CoreLib m_core;
-        private CoreOptions m_coreOptions;
+        private readonly Options m_options;
+        private readonly CoreLib m_core;
+        private readonly CoreOptions m_coreOptions;
 
         private MainSplitContainer m_mainSplitContainer;
         private MainMenu m_mainMenu;

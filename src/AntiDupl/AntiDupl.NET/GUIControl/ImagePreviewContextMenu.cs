@@ -31,11 +31,11 @@ namespace AntiDupl.NET
 {
     public class ImagePreviewContextMenu : ContextMenuStrip
     {
-        private CoreLib m_core;
-        private Options m_options;
-        private CoreOptions m_coreOptions;
-        private ImagePreviewPanel m_imagePreviewPanel;
-        private ResultsListView m_resultsListView;
+        private readonly CoreLib m_core;
+        private readonly Options m_options;
+        private readonly CoreOptions m_coreOptions;
+        private readonly ImagePreviewPanel m_imagePreviewPanel;
+        private readonly ResultsListView m_resultsListView;
 
         private ToolStripMenuItem m_copyPathItem;
         private ToolStripMenuItem m_copyFileNameItem;
@@ -69,7 +69,7 @@ namespace AntiDupl.NET
             RenderMode = ToolStripRenderMode.System;
 
             m_copyPathItem = InitFactory.MenuItem.Create(null, null, CopyPath);
-            m_copyFileNameItem = InitFactory.MenuItem.Create(null, null, new EventHandler(this.CopyFileName));
+            m_copyFileNameItem = InitFactory.MenuItem.Create(null, null, new EventHandler(CopyFileName));
             m_openImageItem = InitFactory.MenuItem.Create(null, null, OpenImage);
             m_openFolderItem = InitFactory.MenuItem.Create(null, null, OpenFolder);
             m_addToIgnore = InitFactory.MenuItem.Create(null, null, AddToIgnore);
@@ -161,7 +161,7 @@ namespace AntiDupl.NET
             if (m_imagePreviewPanel.CurrentImageInfo != null)
             {
                 Array.Resize(ref m_coreOptions.ignorePath, m_coreOptions.ignorePath.Length + 1);
-                m_coreOptions.ignorePath[m_coreOptions.ignorePath.Length - 1] = new CorePathWithSubFolder(m_imagePreviewPanel.CurrentImageInfo.path, false);
+                m_coreOptions.ignorePath[^1] = new CorePathWithSubFolder(m_imagePreviewPanel.CurrentImageInfo.path, false);
                 m_coreOptions.Validate(m_core, m_options.onePath);
                 m_resultsListView.RefreshResults();
             }
@@ -172,7 +172,7 @@ namespace AntiDupl.NET
             if (m_imagePreviewPanel.CurrentImageInfo != null)
             {
                 Array.Resize(ref m_coreOptions.ignorePath, m_coreOptions.ignorePath.Length + 1);
-                m_coreOptions.ignorePath[m_coreOptions.ignorePath.Length - 1] = new CorePathWithSubFolder(m_imagePreviewPanel.CurrentImageInfo.GetDirectoryString(), true);
+                m_coreOptions.ignorePath[^1] = new CorePathWithSubFolder(m_imagePreviewPanel.CurrentImageInfo.GetDirectoryString(), true);
                 m_coreOptions.Validate(m_core, m_options.onePath);
                 m_resultsListView.RefreshResults();
             }

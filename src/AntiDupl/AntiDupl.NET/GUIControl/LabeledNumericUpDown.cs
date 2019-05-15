@@ -31,8 +31,8 @@ namespace AntiDupl.NET
     /// </summary>
     class LabeledNumericUpDown : TableLayoutPanel
     {
-        private NumericUpDown m_numericUpDown;
-        private Label m_label;
+        private readonly NumericUpDown m_numericUpDown;
+        private readonly Label m_label;
         private float m_value = 0;
         private float m_min = int.MinValue;
         private float m_max = int.MaxValue;

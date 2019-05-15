@@ -51,8 +51,8 @@ namespace AntiDupl.NET
         private const int EBW = 2;//External border width
 
         private readonly CoreLib m_core;
-        private Options m_options;
-        private ResultsListView m_resultsListView;
+        private readonly Options m_options;
+        private readonly ResultsListView m_resultsListView;
         /// <summary>
         /// Группа дубликатов.
         /// </summary>
@@ -478,10 +478,10 @@ namespace AntiDupl.NET
             {
                 for (var i = 0; i < exifList.Count - 1; i++)
                 {
-                    exifSting = exifSting + exifList[i];
-                    exifSting = exifSting + Environment.NewLine;
+                    exifSting += exifList[i];
+                    exifSting += Environment.NewLine;
                 }
-                exifSting = exifSting + exifList[exifList.Count - 1];
+                exifSting += exifList[exifList.Count - 1];
 
                 m_toolTip.SetToolTip(m_imageExifLabel, exifSting);
             }
@@ -514,7 +514,7 @@ namespace AntiDupl.NET
         /// <summary>
         /// Проверка равны ли Exif.
         /// </summary>
-        private bool ExifEqual(CoreDll.adImageExifW imageExif1, CoreDll.adImageExifW imageExif2)
+        private bool ExifEqual(CoreDll.AdImageExifW imageExif1, CoreDll.AdImageExifW imageExif2)
         {
             if (imageExif1.isEmpty == imageExif2.isEmpty &&
                 imageExif1.artist.CompareTo(imageExif2.artist) == 0 &&
@@ -554,7 +554,7 @@ namespace AntiDupl.NET
                         if (x >= bitmap.Width)
                         {
                             x = 0;
-                            y = y + heightOfFragment;
+                            y += heightOfFragment;
                         }
                     }
 

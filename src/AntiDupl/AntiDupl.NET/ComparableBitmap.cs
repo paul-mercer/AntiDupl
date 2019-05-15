@@ -47,7 +47,7 @@ namespace AntiDupl.NET
 
         public ComparableBitmap(Bitmap bitmapSource, Rectangle section)
         {
-            this.Rect = section;
+            Rect = section;
 
             // Create the new bitmap and associated graphics object
             using (var sectionBmp = new Bitmap(section.Width, section.Height))
@@ -58,7 +58,7 @@ namespace AntiDupl.NET
                     g.DrawImage(bitmapSource, 0, 0, section, GraphicsUnit.Pixel);
                 }
 
-                this.GrayscaleData = GetBmpBytes(ToGrayScale(sectionBmp));
+                GrayscaleData = GetBmpBytes(ToGrayScale(sectionBmp));
             }
         }
 
